@@ -1,8 +1,8 @@
-package com.project_two_tests.steps;
+package com.project_two_functional_tests.steps;
 
 import java.io.IOException;
 
-import com.project_two_tests.utils.HttpUtil;
+import com.project_two_functional_tests.utils.HttpUtil;
 
 import io.cucumber.java.Before;
 

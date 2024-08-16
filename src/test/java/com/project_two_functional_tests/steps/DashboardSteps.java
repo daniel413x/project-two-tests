@@ -1,11 +1,11 @@
-package com.project_two_tests.steps;
+package com.project_two_functional_tests.steps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import com.project_two_tests.pages.DashboardPage;
+import com.project_two_functional_tests.pages.DashboardPage;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

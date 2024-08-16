@@ -1,4 +1,4 @@
-package com.project_two_tests.pages;
+package com.project_two_functional_tests.pages;
 
 import java.time.Duration;
 import java.util.List;

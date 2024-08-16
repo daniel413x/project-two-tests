@@ -1,6 +1,6 @@
-package com.project_two_tests.steps;
+package com.project_two_functional_tests.steps;
 
-import com.project_two_tests.pages.ProductsPage;
+import com.project_two_functional_tests.pages.ProductsPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -8,7 +8,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 

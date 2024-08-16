@@ -1,4 +1,4 @@
-package com.project_two_tests.utils;
+package com.project_two_functional_tests.utils;
 
 import java.io.IOException;
 

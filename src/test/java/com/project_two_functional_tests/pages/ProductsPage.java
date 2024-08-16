@@ -1,6 +1,5 @@
-package com.project_two_tests.pages;
+package com.project_two_functional_tests.pages;
 
-import org.mockito.internal.matchers.Find;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
