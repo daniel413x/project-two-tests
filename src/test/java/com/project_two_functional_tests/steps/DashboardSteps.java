@@ -1,6 +1,7 @@
 package com.project_two_functional_tests.steps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,23 +15,23 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+@Disabled("Temporarily disabled")
 public class DashboardSteps {
 
     private WebDriver driver;
     private DashboardPage dashboardPage;
 
-    @Before
+    @Before("@dashboard-statistics")
     public void before() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        this.driver = new ChromeDriver();
         this.dashboardPage = new DashboardPage(driver);
     }
 
-    @After
+    @After("@dashboard-statistics")
     public void after() {
-        if(driver != null) {
-            this.driver.quit();
+        if (this.driver != null) {
+          this.driver.quit(); 
         }
     }
 

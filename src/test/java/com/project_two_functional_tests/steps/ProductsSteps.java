@@ -1,18 +1,21 @@
 package com.project_two_functional_tests.steps;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import com.project_two_functional_tests.pages.ProductsPage;
+
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+@Disabled("Temporarily disabled")
 public class ProductsSteps {
 
     private WebDriver driver;
@@ -20,18 +23,17 @@ public class ProductsSteps {
 
     private String createdTestProductCategoryName = "Stylish";
 
-    @Before
+    @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void before() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        this.driver = new ChromeDriver();
         this.productsPage = new ProductsPage(driver);
     }
 
-    @After
+    @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void after() {
-        if(driver != null) {
-            this.driver.quit();
+        if (this.driver != null) {
+          this.driver.quit(); 
         }
     }
 

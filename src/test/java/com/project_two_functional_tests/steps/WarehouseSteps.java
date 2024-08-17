@@ -1,35 +1,35 @@
 package com.project_two_functional_tests.steps;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import com.project_two_functional_tests.pages.WarehousesPage;
+
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WarehouseSteps {
 
     private WebDriver driver;
     private WarehousesPage warehousesPage;
 
-    @Before
+    @Before("@warehouses-categories or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void before() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        this.driver = new ChromeDriver();
         this.warehousesPage = new WarehousesPage(driver);
     }
 
-    @After
+    @After("@warehouses-categories or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void after() {
-        if(driver != null) {
-            this.driver.quit();
+        if (this.driver != null) {
+          this.driver.quit(); 
         }
     }
 
