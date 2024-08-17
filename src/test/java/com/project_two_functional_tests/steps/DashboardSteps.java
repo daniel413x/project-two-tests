@@ -45,13 +45,9 @@ public class DashboardSteps {
         this.dashboardPage.dashboardFiguresLoaded();
     }
 
-    @Then("I should see the \"Total Items in Inventory\" with a value of 300")
-    public void iShouldSeeTheTotalItemsInInventoryWithAValueOf300() {
-        assertTrue(this.dashboardPage.iShouldSeeTheTotalItemsInInventoryWithAValueOf300());
+    @Then("I should see the {string} with a value of {string}")
+    public void iShouldSeeTitleWithAValueOfValue(String title, String value ) {
+        assertTrue(this.dashboardPage.iShouldSeeCard(title, value));
     }
 
-    @And("I should see the \"Total Max Capacity\" with a value of 1000")
-    public void iShouldSeeTheTotalMaxCapacityWithAValueOf1000() {
-        assertTrue(this.dashboardPage.iShouldSeeTheTotalMaxCapacityWithAValueOf1000());
-    }
 }
