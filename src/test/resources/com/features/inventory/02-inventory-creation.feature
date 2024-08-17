@@ -2,7 +2,7 @@
 Feature: Inventory creation
 
   Background:
-    Given I am on the inventory page
+    Given I am on the all inventory page
     And I have opened the create inventory form modal
 
   Scenario: A new inventory is created
