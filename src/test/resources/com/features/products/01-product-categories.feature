@@ -1,4 +1,4 @@
-@products-categories
+@product-categories
 Feature: Products
 
   Background:

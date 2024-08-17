@@ -1,4 +1,4 @@
-@products-categories-creation
+@product-categories-creation
 Feature: Product categories creation
 
   Background:
