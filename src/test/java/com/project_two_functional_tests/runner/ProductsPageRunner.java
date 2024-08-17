@@ -1,5 +1,6 @@
 package com.project_two_functional_tests.runner;
 
+import io.cucumber.testng.CucumberOptions;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;

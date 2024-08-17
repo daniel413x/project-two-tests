@@ -1,6 +1,5 @@
 package com.project_two_functional_tests.runner;
 
-import io.cucumber.testng.CucumberOptions;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
@@ -10,7 +9,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("com/features/dashboard/01-dashboard-statistics.feature")
+@SelectClasspathResource("com/features/warehouses")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-public class DashboardPageRunner {
+public class WarehousesPageRunner {
 }

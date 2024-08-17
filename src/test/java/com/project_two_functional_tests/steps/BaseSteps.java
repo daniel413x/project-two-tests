@@ -11,9 +11,10 @@ public class BaseSteps {
     @Before
     public void resetDatabaseAfterTest() {
         try {
-            HttpUtil.sendPostRequest("http://localhost:8080/api/testing/reset");
+            HttpUtil.sendPostRequest("http://localhost:5000/api/testing/reset");
         } catch (IOException e) {
             System.out.println(e);
         }
     }
+
 }

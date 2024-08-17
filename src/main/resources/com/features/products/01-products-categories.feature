@@ -5,5 +5,5 @@ Feature: Products
     Given I am on the products page
 
   Scenario: Product categories are shown
-    When the data loads
+    When the product categories load
     Then I should see product categories

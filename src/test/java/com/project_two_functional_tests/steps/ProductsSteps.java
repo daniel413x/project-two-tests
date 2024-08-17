@@ -40,7 +40,7 @@ public class ProductsSteps {
         this.productsPage.get();
     }
 
-    @When("the data loads")
+    @When("the product categories load")
     public void theProductCategoryCardsLoaded() {
         this.productsPage.productCategoryCardsLoaded();
     }
@@ -50,22 +50,22 @@ public class ProductsSteps {
         assertTrue(this.productsPage.iShouldSeeTheProductCategories());
     }
 
-    @And("I have opened the create form modal")
-    public void iHaveOpenedTheCreateFormModal() {
+    @And("I have opened the create product category form modal")
+    public void iHaveOpenedTheCreateProductCategoryFormModal() {
         this.productsPage.clickOnCreateProductCategoryButton();
     }
 
-    @When("I enter valid input")
+    @When("I enter valid input for a new product category")
     public void iEnterValidInput() {
         this.productsPage.enterInput(createdTestProductCategoryName);
     }
 
-    @And("I press the submit button")
+    @And("I press the product category form submit button")
     public void iPressTheSubmitButton() {
         this.productsPage.clickOnModalSubmitButton();
     }
 
-    @Then("the form submission should be successful")
+    @Then("the product category form submission should be successful")
     public void theFormSubmissionShouldBeSuccessful() {
         assertTrue(this.productsPage.containsProductCategoryWithName(createdTestProductCategoryName));
     }

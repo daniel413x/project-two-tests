@@ -3,5 +3,5 @@ Feature: Warehouses
 
   Scenario: Warehouse are shown
     Given I am on the warehouses page
-    When the data loads
+    When the warehouses load
     Then I should see rows of warehouses
