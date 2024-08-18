@@ -7,15 +7,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.DashboardPage;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-@Disabled("Temporarily disabled")
 public class DashboardSteps {
 
     private WebDriver driver;
@@ -32,6 +31,7 @@ public class DashboardSteps {
     public void after() {
         if (this.driver != null) {
           this.driver.quit(); 
+          ResetDatabase.run();
         }
     }
 

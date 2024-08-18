@@ -1,20 +1,14 @@
 package com.project_two_functional_tests.steps;
 
-import java.io.IOException;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
-import com.project_two_functional_tests.utils.HttpUtil;
-
-import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 
 public class BaseSteps {
 
-    @Before
-    public void resetDatabaseAfterTest() {
-        try {
-            HttpUtil.sendPostRequest("http://localhost:5000/api/testing/reset");
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+    @BeforeAll
+    public static void resetDatabaseAfterTest() {
+        ResetDatabase.run();
     }
 
 }

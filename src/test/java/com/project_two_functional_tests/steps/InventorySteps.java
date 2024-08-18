@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.InventoryPage;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -29,7 +30,8 @@ public class InventorySteps {
     @After("@inventory-creation")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit(); 
+          this.driver.quit();
+          ResetDatabase.run();
         }
     }
 
