@@ -18,11 +18,19 @@ public class InventoryPage {
     @FindBy(id="inventory")
     private WebElement inventorySection;
 
+    @FindBy(className="ant-table-row")
+    private List<WebElement> rows;
+
     @FindBy(tagName = "button")
     private List<WebElement> addInventoryButton;
 
     @FindBy(className = "ant-modal-content")
     private WebElement modal;
+
+    @FindBy(className = "ant-popover-inner")
+    private WebElement deletePopover;
+
+    private String deletedInventory;
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
@@ -46,6 +54,18 @@ public class InventoryPage {
             e.printStackTrace();
         }
         this.driver.get(url);
+    }
+
+    public List<WebElement> getRows() {
+        return this.rows;
+    }
+
+    public void setDeletedInventory(String string) {
+        this.deletedInventory = string;
+    }
+
+    public String getDeletedInventory() {
+        return this.deletedInventory;
     }
 
     public boolean inventorySectionLoaded() {
@@ -121,6 +141,25 @@ public class InventoryPage {
     }
 
     public boolean doesNotContainInventoryWithName(String name) {
+        return !inventorySection.getText().contains(name);
+    }
+
+    public void triggerTheDeletePopover(int index) {
+        WebElement button = inventorySection.findElement(By.id("delete-inventory-" + index));
+        try {
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        button.click();
+    }
+
+    public void pressConfirmDeleteButton(int index) {
+        WebElement button = deletePopover.findElement(By.id("confirm-delete-inventory-" + index));
+        button.click();
+    }
+
+    public boolean doesNotContainInventoryMatchingString(String name) {
         return !inventorySection.getText().contains(name);
     }
 }

@@ -20,14 +20,14 @@ public class InventorySteps {
     private WebDriver driver;
     private InventoryPage inventoryPage;
 
-    @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update")
+    @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
     public void before() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.inventoryPage = new InventoryPage(driver);
     }
 
-    @After("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update")
+    @After("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
     public void after() {
         if (this.driver != null) {
             this.driver.quit();
@@ -84,5 +84,26 @@ public class InventorySteps {
         if (type.equals("warehouse 1") || type.equals("category 4") || type.equals("all")) {
             assertTrue(this.inventoryPage.containsInventoryWithName("Emperor Penguin Shoes"));
         }
+    }
+
+    /**
+      * Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages
+      */ 
+
+    @And("I have triggered the delete inventory popover")
+    public void iHaveTriggeredTheDeleteInventoryPopover() {
+        inventoryPage.triggerTheDeletePopover(1);
+    }
+
+    @When("I click \"Delete\"")
+    public void iClickConfirmDelete() {
+        String deletedInventory = inventoryPage.getRows().get(1).getText();
+        inventoryPage.setDeletedInventory(deletedInventory);
+        inventoryPage.pressConfirmDeleteButton(1);
+    }
+
+    @Then("the inventory should not appear in the inventory for {string}")
+    public void theInventoryShouldNotAppearInTheInventoryForString(String string) {
+        assertTrue(inventoryPage.doesNotContainInventoryMatchingString(inventoryPage.getDeletedInventory()));
     }
 }
