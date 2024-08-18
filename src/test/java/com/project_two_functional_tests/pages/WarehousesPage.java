@@ -84,7 +84,7 @@ public class WarehousesPage {
     }
 
     public void clickOnModalSubmitButton() {
-        WebElement button = modal.findElement(By.className("ant-modal-footer")).findElements(By.tagName("button")).get(1);
+        WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
         try {
             Thread.sleep(1000);
         } catch(InterruptedException e) {
