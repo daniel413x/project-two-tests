@@ -65,7 +65,6 @@ public class DashboardPage {
 
             if (cardTitle.equals(title)) {
                 String cardValue = card.findElement(By.tagName("h1")).getText();
-
                 return cardValue.equals((value));
             }
         }
