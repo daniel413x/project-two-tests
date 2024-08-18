@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.ProductsPage;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -15,7 +16,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-@Disabled("Temporarily disabled")
 public class ProductsSteps {
 
     private WebDriver driver;
@@ -33,11 +33,12 @@ public class ProductsSteps {
     @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit(); 
+          this.driver.quit();
+          ResetDatabase.run();
         }
     }
 
-    @Given("I am on the products page")
+    @Given("I am on the product categories page")
     public void iAmOnTheProductsPage() {
         this.productsPage.get();
     }
@@ -76,4 +77,32 @@ public class ProductsSteps {
     public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
         assertTrue(this.productsPage.containsProductCategoryWithName(createdTestProductCategoryName));
     }
+
+    @And("there is one or more existing category cards")
+    public void thereIsOneOrMoreExistingCategoryCards() {}
+
+    @When("I select the {string} icon on a category card") 
+    public void iSelectTheIconOnACard(String iconType) {}
+
+    @Then("I should see a category name field pre-filled with the current name")
+    public void iShouldSeeACategoryNameFieldPrefilled() {}
+
+    @And("be able to edit the category name field to a new value")
+    public void beAbleToEditTheCategoryNameToNewValue() {}
+
+    @Then("I should click the {string} button")
+    public void iShouldClickTheButton(String buttonText) {}
+
+    @And("see the category name updated to the new value")
+    public void seeTheCategoryNameUpdated() {}
+
+    @And("see the category name unchanged")
+    public void seeTheCategoryNameUnchanged() {}
+
+    @And("select Delete from the dropdown")
+    public void selectDeleteFromDropdown() {}
+
+    @Then("I should not see the category card displayed")
+    public void iShouldNotSeeCategoryCardDisplayed() {}
+
 }
