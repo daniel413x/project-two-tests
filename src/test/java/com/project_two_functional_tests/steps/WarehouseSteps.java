@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.WarehousesPage;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -19,17 +20,18 @@ public class WarehouseSteps {
     private WebDriver driver;
     private WarehousesPage warehousesPage;
 
-    @Before("@warehouses-categories or @warehouse-creation or @warehouse-update or @warehouse-delete")
+    @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void before() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.warehousesPage = new WarehousesPage(driver);
     }
 
-    @After("@warehouses-categories or @warehouse-creation or @warehouse-update or @warehouse-delete")
+    @After("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit(); 
+          this.driver.quit();
+          ResetDatabase.run();
         }
     }
 
