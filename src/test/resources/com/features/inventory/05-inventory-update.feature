@@ -7,7 +7,7 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Warehouse", "Price", "Size" and "Quantity" fields
-    Then I should click the Save button
+    Then I should click the "Save" button
     And see the inventory item row updated
 
   Scenario: Save inventory item update on a warehouse inventory page
@@ -16,7 +16,7 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Price", "Size" and "Quantity" fields
-    Then I should click the Save button
+    Then I should click the "Save" button
     And see the inventory item row updated
 
   Scenario: Save inventory item update on a product category page
@@ -25,7 +25,7 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Warehouse", "Price", "Size" and "Quantity" fields
-    Then I should click the Save button
+    Then I should click the "Save" button
     And see the inventory item row updated
 
   Scenario: Cancel inventory item update on all inventory page
@@ -34,7 +34,7 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Warehouse", "Price", "Size" and "Quantity" fields
-    Then I should click the Cancel button
+    Then I should click the "Cancel" button
     And see the inventory item row unchanged
 
   Scenario: Cancel inventory item update on a warehouse inventory page
@@ -43,7 +43,7 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Price", "Size" and "Quantity" fields
-    Then I should click the Cancel button
+    Then I should click the "Cancel" button
     And see the inventory item row unchanged
 
   Scenario: Cancel inventory item update on a product category page
@@ -52,5 +52,5 @@ Feature: Update inventory items
     When I select the Edit link on a row
     Then I should see a form with pre-filled fields of current inventory item information
     And be able to edit the "Brand", "Product Name", "Description", "Warehouse", "Price", "Size" and "Quantity" fields
-    Then I should click the Cancel button
+    Then I should click the "Cancel" button
     And see the inventory item row unchanged

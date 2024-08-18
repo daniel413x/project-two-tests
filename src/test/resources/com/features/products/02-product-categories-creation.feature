@@ -2,7 +2,7 @@
 Feature: Product categories creation
 
   Background:
-    Given I am on the products page
+    Given I am on the product categories page
     And I have opened the create product category form modal
 
   Scenario: A new product category is created

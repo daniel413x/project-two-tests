@@ -1,4 +1,4 @@
-@warehouses-categories
+@warehouses
 Feature: Warehouses
 
   Scenario: Warehouse are shown
