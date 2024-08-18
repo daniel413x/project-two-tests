@@ -75,11 +75,15 @@ public class InventoryPage {
         WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
         descriptionField.sendKeys(description);
         WebElement productTypeField = modal.findElement(By.id("form_in_modal_categoryName"));
-        productTypeField.sendKeys(productType);
-        productTypeField.sendKeys(Keys.ENTER);
+        if (productTypeField.isEnabled()) {
+            productTypeField.sendKeys(productType);
+            productTypeField.sendKeys(Keys.ENTER);
+        }
         WebElement warehouseField = modal.findElement(By.id("form_in_modal_warehouseName"));
-        warehouseField.sendKeys(warehouse);
-        warehouseField.sendKeys(Keys.ENTER);
+        if (warehouseField.isEnabled()) {
+            warehouseField.sendKeys(warehouse);
+            warehouseField.sendKeys(Keys.ENTER);
+        }
         WebElement priceField = modal.findElement(By.id("form_in_modal_price"));
         priceField.sendKeys(price);
         WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
@@ -100,7 +104,7 @@ public class InventoryPage {
 
     public boolean containsInventoryWithName(String name) {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
