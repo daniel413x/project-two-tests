@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps;
+package com.project_two_functional_tests.steps.warehouseSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
@@ -74,4 +74,14 @@ public class WarehouseSteps {
     public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
         assertTrue(this.warehousesPage.containsWarehouseWithName("DCTest1"));
     }
+
+    @And("there is one or more existing warehouse cards") 
+    public void thereIsOneOrMoreExistingWarehouseCards() {
+
+    } 
+
+    @And("select Delete from the dropdown")
+    public void selectDeleteFromDropdown() {}
+
+    
 }
