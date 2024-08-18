@@ -65,12 +65,7 @@ public class WarehouseSteps {
         this.warehousesPage.clickOnModalSubmitButton();
     }
 
-    @Then("the warehouse form submission should be successful")
-    public void theFormSubmissionShouldBeSuccessful() {
-        assertTrue(this.warehousesPage.containsWarehouseWithName("DCTest1"));
-    }
-
-    @And("the created warehouse should appear in the list of warehouses")
+    @Then("the created warehouse should appear in the list of warehouses")
     public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
         assertTrue(this.warehousesPage.containsWarehouseWithName("DCTest1"));
     }

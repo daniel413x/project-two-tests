@@ -16,7 +16,7 @@ public class InventoryPage {
     private static final String url = "http://localhost:5173/inventory?category=all";
 
     @FindBy(id="inventory")
-    private WebElement inventoryCards;
+    private WebElement inventorySection;
 
     @FindBy(tagName = "button")
     private List<WebElement> addInventoryButton;
@@ -48,17 +48,26 @@ public class InventoryPage {
         this.driver.get(url);
     }
 
-    public boolean inventoryCardsLoaded() {
+    public boolean inventorySectionLoaded() {
         try {
             Thread.sleep(1000);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
-        return !inventoryCards.findElements(By.tagName("div")).isEmpty();
+        return !inventorySection.findElements(By.tagName("div")).isEmpty();
     }
 
-    public boolean iShouldSeeTheProductCategories() {
-        return inventoryCards.getText().contains("Guardian Belay Device");
+    // TODO: define helper code on the frontend for more substantial "inventory list" tests
+    public boolean iShouldSeeTheInventoryForAnyCategory() {
+        return inventorySection.getText().contains("Titanium Ascend Rope 60m") && inventorySection.getText().contains("Guardian Belay Device");
+    }
+
+    public boolean iShouldSeeTheInventoryForASingleCategory() {
+        return inventorySection.getText().contains("Eagle Eye Climbing Helmet");
+    }
+
+    public boolean iShouldSeeTheInventoryForASingleWarehouse() {
+        return inventorySection.getText().contains("Titanium Ascend Rope 60m") && inventorySection.getText().contains("Guardian Belay Device");
     }
 
     public void clickOnCreateInventoryButton() {
@@ -108,10 +117,10 @@ public class InventoryPage {
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
-        return inventoryCards.getText().contains(name);
+        return inventorySection.getText().contains(name);
     }
 
     public boolean doesNotContainInventoryWithName(String name) {
-        return !inventoryCards.getText().contains(name);
+        return !inventorySection.getText().contains(name);
     }
 }

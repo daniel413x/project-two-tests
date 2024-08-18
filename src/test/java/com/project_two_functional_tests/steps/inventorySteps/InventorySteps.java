@@ -9,6 +9,7 @@ import com.project_two_functional_tests.pages.InventoryPage;
 import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -19,7 +20,14 @@ public class InventorySteps {
     private WebDriver driver;
     private InventoryPage inventoryPage;
 
-    @After("@inventory-creation or @inventory-sort or @inventory-search or @inventory-update")
+    @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update")
+    public void before() {
+        ChromeOptions options = new ChromeOptions();
+        driver = new ChromeDriver(options);
+        this.inventoryPage = new InventoryPage(driver);
+    }
+
+    @After("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update")
     public void after() {
         if (this.driver != null) {
             this.driver.quit();
@@ -29,9 +37,6 @@ public class InventorySteps {
 
     @Given("I am on the {string} inventory page")
     public void iAmOnTheInventoryPage(String type) {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
-        inventoryPage = new InventoryPage(driver);
         String url;
         if (type.equals("all")) {
             url = "http://localhost:5173/inventory?category=all";
@@ -43,6 +48,20 @@ public class InventorySteps {
             throw new IllegalArgumentException("Invalid page type");
         }
         driver.get(url);
+    }
+
+    @When("the inventory has loaded")
+    public void theInventoryHasLoaded() {
+        assertTrue(this.inventoryPage.inventorySectionLoaded());
+    }
+
+    @Then("I should see inventory for {string}")
+    public void iShouldSeeInventoryFor(String type) {
+        switch (type) {
+            case "all" -> assertTrue(this.inventoryPage.iShouldSeeTheInventoryForAnyCategory());
+            case "category 4" -> assertTrue(this.inventoryPage.iShouldSeeTheInventoryForASingleCategory());
+            default -> assertTrue(this.inventoryPage.iShouldSeeTheInventoryForASingleWarehouse());
+        }
     }
 
     @And("I have opened the create inventory modal")
