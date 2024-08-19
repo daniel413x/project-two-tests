@@ -20,7 +20,7 @@ public class ProductsSteps {
     private WebDriver driver;
     private ProductsPage productsPage;
 
-    private String createdTestProductCategoryName = "Stylish";
+    private String testCategory = "Crampons";
 
     @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void before() {
@@ -32,7 +32,7 @@ public class ProductsSteps {
     @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit();
+        //   this.driver.quit();
           ResetDatabase.run();
         }
     }
@@ -59,7 +59,7 @@ public class ProductsSteps {
 
     @When("I enter valid input for a new product category")
     public void iEnterValidInput() {
-        this.productsPage.enterInput(createdTestProductCategoryName);
+        this.productsPage.enterInput(testCategory);
     }
 
     @And("I press the product category form submit button")
@@ -67,14 +67,9 @@ public class ProductsSteps {
         this.productsPage.clickOnModalSubmitButton();
     }
 
-    @Then("the product category form submission should be successful")
-    public void theFormSubmissionShouldBeSuccessful() {
-        assertTrue(this.productsPage.containsProductCategoryWithName(createdTestProductCategoryName));
-    }
-
-    @And("the created product category should appear in the list of categories")
+    @Then("the created product category should appear in the list of categories")
     public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
-        assertTrue(this.productsPage.containsProductCategoryWithName(createdTestProductCategoryName));
+        assertTrue(this.productsPage.containsProductCategoryWithName(testCategory));
     }
 
     @And("there is one or more existing category cards")
