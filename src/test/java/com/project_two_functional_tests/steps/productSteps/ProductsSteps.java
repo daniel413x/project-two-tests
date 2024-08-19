@@ -67,36 +67,50 @@ public class ProductsSteps {
         this.productsPage.clickOnModalSubmitButton();
     }
 
-    @Then("the created product category should appear in the list of categories")
+    @And("the created product category should appear in the list of categories")
     public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
         assertTrue(this.productsPage.containsProductCategoryWithName(testCategory));
     }
 
-    @And("there is one or more existing category cards")
-    public void thereIsOneOrMoreExistingCategoryCards() {}
-
-    @When("I select the {string} icon on a category card") 
-    public void iSelectTheIconOnACard(String iconType) {}
+    @And("I select the {string} icon on a category card") 
+    public void iSelectTheIconOnACard(String iconType) {
+        this.productsPage.selectIconOnCard(iconType);
+    }
 
     @Then("I should see a category name field pre-filled with the current name")
-    public void iShouldSeeACategoryNameFieldPrefilled() {}
+    public void iShouldSeeACategoryNameFieldPrefilled() {
+        assertTrue(this.productsPage.updateFieldContainsProductCategoryName());
+    }
 
-    @And("be able to edit the category name field to a new value")
-    public void beAbleToEditTheCategoryNameToNewValue() {}
+    @And("edit the category name field to a new value")
+    public void editTheCategoryNameToNewValue() {
+        this.productsPage.editUpdateField(testCategory);
+    }
 
     @Then("I should click the {string} button")
-    public void iShouldClickTheButton(String buttonText) {}
+    public void iShouldClickTheButton(String buttonText) {
+        this.productsPage.clickButtonInModal(buttonText);
+    }
 
     @And("see the category name updated to the new value")
-    public void seeTheCategoryNameUpdated() {}
+    public void seeTheCategoryNameUpdated() {
+        assertTrue(this.productsPage.savedCardIsUpdated(testCategory));
+    }
 
     @And("see the category name unchanged")
-    public void seeTheCategoryNameUnchanged() {}
+    public void seeTheCategoryNameUnchanged() {
+        assertTrue(this.productsPage.canceledCardIsNotUpdated());
+    }
 
     @And("select Delete from the dropdown")
-    public void selectDeleteFromDropdown() {}
+    public void selectDeleteFromDropdown() {
+        this.productsPage.selectDeleteDropdownOption();
+    }
 
     @Then("I should not see the category card displayed")
-    public void iShouldNotSeeCategoryCardDisplayed() {}
+    public void iShouldNotSeeCategoryCardDisplayed() {
+        assertTrue(this.productsPage.cardIsDeleted());
+
+    }
 
 }
