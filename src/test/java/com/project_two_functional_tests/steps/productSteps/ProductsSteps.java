@@ -32,7 +32,7 @@ public class ProductsSteps {
     @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void after() {
         if (this.driver != null) {
-        //   this.driver.quit();
+          this.driver.quit();
           ResetDatabase.run();
         }
     }

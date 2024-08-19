@@ -99,6 +99,11 @@ public class ProductsPage {
     }
 
     public boolean doesNotContainProductCategoryWithName(String name) {
+        try {
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
         for (WebElement card : cards) {
             String title = card.findElement(By.className("ant-card-meta-title")).getText();
             if (title.equals(name)) return false;
