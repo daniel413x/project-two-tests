@@ -19,6 +19,12 @@ public class WarehouseSteps {
 
     private WebDriver driver;
     private WarehousesPage warehousesPage;
+    private String testWarehouseName = "DC1";
+    private String testMaxCapacity = "1800";
+    private String testStreetAddress = "4000 Connecticut Avenue NW";
+    private String testCity = "Washington";
+    private String testState = "District of Columbia"; // Go DC Statehood
+    private String testZipCode = "20009";
 
     @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void before() {
@@ -30,8 +36,8 @@ public class WarehouseSteps {
     @After("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit();
-          ResetDatabase.run();
+            this.driver.quit();
+            ResetDatabase.run();
         }
     }
 
@@ -45,7 +51,7 @@ public class WarehouseSteps {
         this.warehousesPage.warehouseCardsLoaded();
     }
 
-    @Then("I should see rows of warehouses")
+    @Then("I should see warehouses")
     public void iShouldSeeTheWarehouses() {
         assertTrue(this.warehousesPage.containsWarehouseWithName("CA1"));
     }
@@ -57,7 +63,8 @@ public class WarehouseSteps {
 
     @When("I enter valid input for a new warehouse")
     public void iEnterValidInput() {
-        this.warehousesPage.enterFormInputs("DCTest1", "1000", "4000 Connecticut Avenue NW", "Washington", "District of Columbia", "20009");
+        this.warehousesPage.enterFormInputs(testWarehouseName, testMaxCapacity, testStreetAddress, testCity, testState,
+                testZipCode);
     }
 
     @And("I press the warehouse form submit button")
@@ -66,17 +73,68 @@ public class WarehouseSteps {
     }
 
     @Then("the created warehouse should appear in the list of warehouses")
-    public void theCreatedProductCategoryShouldAppearInTheListOfCategories() {
-        assertTrue(this.warehousesPage.containsWarehouseWithName("DCTest1"));
+    public void theCreatedProductCategoryShouldAppearInTheListOfWarehouses() {
+        assertTrue(this.warehousesPage.containsWarehouseWithName(testWarehouseName));
     }
 
-    @And("there is one or more existing warehouse cards") 
-    public void thereIsOneOrMoreExistingWarehouseCards() {
+    @And("I select the {string} icon on a warehouse card")
+    public void iSelectTheIconOnACard(String iconType) {
+        this.warehousesPage.selectIconOnCard(iconType);
+    }
 
-    } 
+    @Then("I should see a form with pre-filled fields of current warehouse information")
+    public void iShouldSeeWarehouseFormFieldsPrefilled() {
+        assertTrue(this.warehousesPage.formFieldsContainCurrentWarehouseInformation());
+    }
+
+    @And("edit the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields")
+    public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
+        this.warehousesPage.editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName, testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
+    }
+
+    @Then("I should click the {string} button")
+    public void iShouldClickTheButton(String buttonText) {
+        this.warehousesPage.clickButtonInModal(buttonText);
+    }
+
+    @And("see the warehouse name, city, and state updated")
+    public void seeWarehouseNameCityAndStateUpdated() {
+        assertTrue(this.warehousesPage.savedCardIsUpdated(testWarehouseName, testCity, testState));
+    }
+
+    @And("see the warehouse name, city, and state unchanged")
+    public void seeWarehouseNameCityAndStateUnchanged() {
+        assertTrue(this.warehousesPage.canceledCardIsNotUpdated());
+    }
+
+    @Then("I should select the updated warehouse card")
+    public void iShouldSelectUpdatedWarehouseCard() {
+        this.warehousesPage.selectWarehouseCard(testWarehouseName);
+    }
+
+    @Then("I should select the unchanged warehouse card")
+    public void iShouldSelectUnchangedWarehouseCard() {
+        this.warehousesPage.selectWarehouseCard();
+    }
+
+    @And("see the max capacity updated")
+    public void seeMaxCapacityUpdated() {
+        assertTrue(this.warehousesPage.maxCapacityIsUpdated(testMaxCapacity));
+    }
+
+    @And("see the max capacity unchanged")
+    public void seeMaxCapacityUnchanged() {
+        assertTrue(this.warehousesPage.maxCapacityIsNotUpdated());
+    }
 
     @And("select Delete from the dropdown")
-    public void selectDeleteFromDropdown() {}
+    public void selectDeleteFromDropdown() {
+        this.warehousesPage.selectDeleteDropdownOption();
+    }
 
-    
+    @Then("I should not see the warehouse card displayed")
+    public void iShouldNotSeeWarehouseCardDisplayed() {
+        assertTrue(this.warehousesPage.cardIsDeleted());
+    }
+
 }

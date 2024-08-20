@@ -93,7 +93,7 @@ public class ProductsSteps {
     }
 
     @And("see the category name updated to the new value")
-    public void seeTheCategoryNameUpdated() {
+    public void seeCategoryNameUpdated() {
         assertTrue(this.productsPage.savedCardIsUpdated(testCategory));
     }
 

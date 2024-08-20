@@ -14,8 +14,8 @@ public class ProductsPage {
 
     private WebDriver driver;
     private static final String url = "http://localhost:5173/products";
-    private String editedCardTitle;
-    private String deletedCardTitle;
+    private String editedCardCategoryName;
+    private String deletedCardCategoryName;
 
     @FindBy(className = "ant-card")
     private List<WebElement> cards;
@@ -82,11 +82,6 @@ public class ProductsPage {
     }
 
     public void clickOnModalSubmitButton() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
         button.click();
     }
@@ -122,11 +117,11 @@ public class ProductsPage {
     public void selectIconOnCard(String iconType) {
         switch (iconType) {
             case "edit":
-                editedCardTitle = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                editedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
                 cards.get(0).findElement(By.className("anticon-edit")).click();
                 break;
             case "...":
-                deletedCardTitle = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                deletedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
                 cards.get(0).findElement(By.className("anticon-ellipsis")).click();
                 break;
         }
@@ -134,14 +129,14 @@ public class ProductsPage {
 
     public boolean updateFieldContainsProductCategoryName() {
         WebElement updateField = modal.findElement(By.id("form_in_modal_name"));
-        return updateField.getAttribute("value").equals(editedCardTitle);
+        return updateField.getAttribute("value").equals(editedCardCategoryName);
     }
 
     public void editUpdateField(String input) {
         WebElement updateField = modal.findElement(By.id("form_in_modal_name"));
 
         // Clear method won't work due to the way the initial value of the field is being set
-        for (int i = 0; i < editedCardTitle.length(); i++) {
+        for (int i = 0; i < editedCardCategoryName.length(); i++) {
             updateField.sendKeys(Keys.BACK_SPACE);
         }
 
@@ -165,7 +160,7 @@ public class ProductsPage {
     }
 
     public boolean canceledCardIsNotUpdated() {
-        return this.containsProductCategoryWithName(editedCardTitle);
+        return this.containsProductCategoryWithName(editedCardCategoryName);
     }
 
     public void selectDeleteDropdownOption() {
@@ -174,7 +169,7 @@ public class ProductsPage {
     }
 
     public boolean cardIsDeleted() {
-        return this.doesNotContainProductCategoryWithName(deletedCardTitle);
+        return this.doesNotContainProductCategoryWithName(deletedCardCategoryName);
     }
 
 }
