@@ -7,10 +7,10 @@ Feature: Navigation
     Then I should be navigated to "<page>"
 
     Examples:
-      | current page | page       |
-      | Dashboard    | Products   |
-      | Products     | Inventory  |
-      | Products     | Warehouses |
+      | current page | page      |
+      | Dashboard    | Products  |
+      | Products     | Inventory |
+      | Warehouses   | Inventory |
 
   Scenario Outline: Breadcrumbs
     Given I am on the "<current page>" page
@@ -20,4 +20,4 @@ Feature: Navigation
     Examples:
       | current page               | page       |
       | Inventory - Climbing Shoes | Products   |
-      | Inventory - CO4            | Warehouses |
+      | Inventory - CA1            | Warehouses |
