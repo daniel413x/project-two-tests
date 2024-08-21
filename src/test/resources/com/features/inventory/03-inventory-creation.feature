@@ -6,7 +6,7 @@ Feature: Inventory creation
     And I have opened the create inventory modal
     When I enter valid inputs for all form fields
     And I press the submit button
-    Then the created inventory should appear in the inventory for "<inventoryPage>"
+    Then I should see the new inventory item row displayed
 
     Examples:
       | inventoryPage |

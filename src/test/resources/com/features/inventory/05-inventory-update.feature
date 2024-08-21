@@ -2,55 +2,75 @@
 Feature: Update inventory items
 
   Scenario: Save inventory item update on all inventory page
-    Given I am on the all inventory page
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+    Given I am on the "all" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Warehouse", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should click the "Save" button
     And see the inventory item row updated
 
-  Scenario: Save inventory item update on a warehouse inventory page
-    Given I am on the inventory page for a specific warehouse
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+  Scenario Outline: Save inventory item update on a warehouse inventory page
+    Given I am on the "<inventorybyWarehousePage>" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields
     Then I should click the "Save" button
     And see the inventory item row updated
 
-  Scenario: Save inventory item update on a product category page
-    Given I am on the inventory page for a specific product category
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+    Examples:
+      | inventorybyWarehousePage |
+      | warehouse 1              |
+      | warehouse 2              |
+
+  Scenario Outline: Save inventory item update on a product category page
+    Given I am on the "<inventorybyProductCategoryPage>" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Warehouse", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I should click the "Save" button
     And see the inventory item row updated
+
+    Examples:
+      | inventorybyProductCategoryPage |
+      | category 1                     |
+      | category 2                     |
 
   Scenario: Cancel inventory item update on all inventory page
-    Given I am on the all inventory page
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+    Given I am on the "all" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Warehouse", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should click the "Cancel" button
     And see the inventory item row unchanged
 
-  Scenario: Cancel inventory item update on a warehouse inventory page
-    Given I am on the inventory page for a specific warehouse
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+  Scenario Outline: Cancel inventory item update on a warehouse inventory page
+    Given I am on the "<inventorybyWarehousePage>" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Product Type", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should click the "Cancel" button
     And see the inventory item row unchanged
 
-  Scenario: Cancel inventory item update on a product category page
-    Given I am on the inventory page for a specific product category
-    And there is one or more existing inventory item rows
-    When I select the Edit link on a row
+    Examples:
+      | inventorybyWarehousePage |
+      | warehouse 1              |
+      | warehouse 2              |
+
+  Scenario Outline: Cancel inventory item update on a product category page
+    Given I am on the "<inventorybyProductCategoryPage>" inventory page
+    When the inventory has loaded
+    And I select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And be able to edit the "Brand", "Product Name", "Description", "Warehouse", "Price", "Size" and "Quantity" fields
+    And edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I should click the "Cancel" button
     And see the inventory item row unchanged
+
+    Examples:
+      | inventorybyProductCategoryPage |
+      | category 1                     |
+      | category 2                     |
