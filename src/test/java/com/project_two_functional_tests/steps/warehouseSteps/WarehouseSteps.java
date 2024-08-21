@@ -79,7 +79,7 @@ public class WarehouseSteps {
 
     @And("I select the {string} icon on a warehouse card")
     public void iSelectTheIconOnACard(String iconType) {
-        this.warehousesPage.selectIconOnCard(iconType);
+        this.warehousesPage.selectIconOnCard(0, iconType);
     }
 
     @Then("I should see a form with pre-filled fields of current warehouse information")

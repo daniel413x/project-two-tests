@@ -133,7 +133,7 @@ public class WarehousesPage {
         return true;
     }
 
-    public void selectIconOnCard(String iconType) {
+    public void selectIconOnCard(int index, String iconType) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -142,21 +142,21 @@ public class WarehousesPage {
 
         switch (iconType) {
             case "edit":
-                editedCardWarehouseName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                editedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
                 editedCardWarehouseName = editedCardWarehouseName.replace("Warehouse ", "");
 
-                String[] cityAndState = cards.get(0).findElement(By.className("ant-card-meta-description")).getText()
+                String[] cityAndState = cards.get(index).findElement(By.className("ant-card-meta-description")).getText()
                         .split(",");
                 editedCardCity = cityAndState[0].trim();
                 editedCardState = cityAndState[1].trim();
 
-                cards.get(0).findElement(By.className("anticon-edit")).click();
+                cards.get(index).findElement(By.className("anticon-edit")).click();
                 break;
             case "...":
-                deletedCardWarehouseName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                deletedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
                 deletedCardWarehouseName.replace("Warehouse ", "");
 
-                cards.get(0).findElement(By.className("anticon-ellipsis")).click();
+                cards.get(index).findElement(By.className("anticon-ellipsis")).click();
                 break;
         }
     }
