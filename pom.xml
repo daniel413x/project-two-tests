@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -29,52 +29,57 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	<dependencies>
-		
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>7.10.2</version>
-			<scope>test</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>reportng</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-
-		<dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
 				<groupId>io.cucumber</groupId>
-				<artifactId>cucumber-java</artifactId>
-				<version>7.18.1</version>
-				<scope>test</scope>
-		</dependency>
-		
+				<artifactId>cucumber-bom</artifactId>
+				<version>7.11.1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.9.2</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>4.23.0</version>
 		</dependency>
-
 		<dependency>
-				<groupId>io.cucumber</groupId>
-				<artifactId>cucumber-junit-platform-engine</artifactId>
-				<scope>test</scope>
-				<version>7.18.1</version>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-				<groupId>org.junit.platform</groupId>
-				<artifactId>junit-platform-suite</artifactId>
-				<scope>test</scope>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-				<groupId>org.junit.jupiter</groupId>
-				<artifactId>junit-jupiter</artifactId>
-				<scope>test</scope>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -91,11 +96,6 @@
 			<artifactId>httpclient5</artifactId>
 			<version>5.2.1</version>
 		</dependency>
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-testng</artifactId>
-			<version>7.14.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -105,16 +105,25 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M7</version>
-					<configuration>
-							<includes>
-									<include>**/*Runner.java</include> <!-- Include all runner classes -->
-							</includes>
-					</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M8</version>
+				<configuration>
+					<includes>
+						<include>**/*Runner.java</include>
+					</includes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
