@@ -24,13 +24,14 @@ public class DashboardSteps {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.dashboardPage = new DashboardPage(driver);
+        driver.manage().window().maximize();
     }
 
     @After("@dashboard-statistics")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit(); 
-          ResetDatabase.run();
+            this.driver.quit();
+            ResetDatabase.run();
         }
     }
 
@@ -39,13 +40,13 @@ public class DashboardSteps {
         this.dashboardPage.get();
     }
 
-    @When("the dashboard loads") 
+    @When("the dashboard loads")
     public void theDashboardLoads() {
         this.dashboardPage.dashboardFiguresLoaded();
     }
 
     @Then("I should see the {string} with a value of {string}")
-    public void iShouldSeeTitleWithAValueOfValue(String title, String value ) {
+    public void iShouldSeeTitleWithAValueOfValue(String title, String value) {
         assertTrue(this.dashboardPage.iShouldSeeCard(title, value));
     }
 

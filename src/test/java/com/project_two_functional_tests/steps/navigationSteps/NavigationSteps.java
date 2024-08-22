@@ -32,6 +32,7 @@ public class NavigationSteps {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.navigationTestsPage = new NavigationTestsPage(driver);
+        driver.manage().window().maximize();
     }
     
     @After("@navigation")

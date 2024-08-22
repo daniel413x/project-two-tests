@@ -27,13 +27,14 @@ public class ProductsSteps {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.productsPage = new ProductsPage(driver);
+        driver.manage().window().maximize();
     }
 
     @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void after() {
         if (this.driver != null) {
-          this.driver.quit();
-          ResetDatabase.run();
+            this.driver.quit();
+            ResetDatabase.run();
         }
     }
 
@@ -72,7 +73,7 @@ public class ProductsSteps {
         assertTrue(this.productsPage.containsProductCategoryWithName(testCategory));
     }
 
-    @And("I select the {string} icon on a category card") 
+    @And("I select the {string} icon on a category card")
     public void iSelectTheIconOnACard(String iconType) {
         this.productsPage.selectIconOnCard(iconType);
     }

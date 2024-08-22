@@ -31,6 +31,7 @@ public class WarehouseSteps {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
         this.warehousesPage = new WarehousesPage(driver);
+        driver.manage().window().maximize();
     }
 
     @After("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
