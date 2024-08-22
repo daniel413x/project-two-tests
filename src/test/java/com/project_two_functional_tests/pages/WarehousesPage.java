@@ -2,6 +2,7 @@ package com.project_two_functional_tests.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -147,7 +148,8 @@ public class WarehousesPage {
                 editedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
                 editedCardWarehouseName = editedCardWarehouseName.replace("Warehouse ", "");
 
-                String[] cityAndState = cards.get(index).findElement(By.className("ant-card-meta-description")).getText()
+                String[] cityAndState = cards.get(index).findElement(By.className("ant-card-meta-description"))
+                        .getText()
                         .split(",");
                 editedCardCity = cityAndState[0].trim();
                 editedCardState = cityAndState[1].trim();
@@ -285,17 +287,26 @@ public class WarehousesPage {
     }
 
     public void selectWarehouseCard(String cardName) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         for (WebElement card : cards) {
+            wait.until(ExpectedConditions.visibilityOf(card));
+
             String title = card.findElement(By.className("ant-card-meta-title")).getText();
 
             if (title.contains(cardName)) {
                 card.click();
+                break;
             }
         }
     }
 
     public void selectWarehouseCard() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         for (WebElement card : cards) {
+            wait.until(ExpectedConditions.visibilityOf(card));
+
             String title = card.findElement(By.className("ant-card-meta-title")).getText();
 
             if (title.contains(editedCardWarehouseName)) {
@@ -311,7 +322,7 @@ public class WarehousesPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         String h1 = driver.findElement(By.tagName("h1")).getText();
 
         Pattern pattern = Pattern.compile("\\(\\d+/(\\d+)\\)");
@@ -320,7 +331,8 @@ public class WarehousesPage {
         if (matcher.find()) {
             String maxCapacity = matcher.group(1);
             return maxCapacity.equals(newMaxCapacity);
-        } else return false;
+        } else
+            return false;
     }
 
     public boolean maxCapacityIsNotUpdated() {
@@ -338,12 +350,14 @@ public class WarehousesPage {
         if (matcher.find()) {
             String maxCapacity = matcher.group(1);
             return maxCapacity.equals(editedCardMaxCapacity);
-        } else return false;
+        } else
+            return false;
     }
 
     public void selectDeleteDropdownOption() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        WebElement deleteMenuItem = wait.until(ExpectedConditions.elementToBeClickable(By.className("ant-dropdown-menu-item-danger")));
+        WebElement deleteMenuItem = wait
+                .until(ExpectedConditions.elementToBeClickable(By.className("ant-dropdown-menu-item-danger")));
         deleteMenuItem.click();
     }
 

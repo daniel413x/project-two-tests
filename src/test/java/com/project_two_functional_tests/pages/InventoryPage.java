@@ -149,7 +149,7 @@ public class InventoryPage {
     }
 
     public boolean inventoryItemDisplayed(String brand, String productName, String description, String productType,
-    String warehouse, String price, String size, String quantity) {
+            String warehouse, String price, String size, String quantity) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -196,7 +196,7 @@ public class InventoryPage {
             if (!quantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
                 isMatchingRow = false;
             }
-    
+
             if (isMatchingRow) {
                 return true;
             }
@@ -251,7 +251,7 @@ public class InventoryPage {
             if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
                 isMatchingRow = false;
             }
-    
+
             if (isMatchingRow) {
                 return false;
             }
@@ -262,17 +262,25 @@ public class InventoryPage {
     public void selectLinkOnRow(int index, String linkText) {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
-    
+
         List<WebElement> rowCells = inventoryItemRows.get(index).findElements(By.tagName("td"));
 
         initialBrand = cellTitles.indexOf("Brand") != -1 ? rowCells.get(cellTitles.indexOf("Brand")).getText() : null;
-        initialProductName = cellTitles.indexOf("Name") != -1 ? rowCells.get(cellTitles.indexOf("Name")).getText() : null;
-        initialDescription =  cellTitles.indexOf("Description") != -1 ? rowCells.get(cellTitles.indexOf("Description")).getText() : null;
-        initialProductType = cellTitles.indexOf("Product Type") != -1 ? rowCells.get(cellTitles.indexOf("Product Type")).getText() : null;
-        initialWarehouse = cellTitles.indexOf("Warehouse") != -1 ? rowCells.get(cellTitles.indexOf("Warehouse")).getText() : null;
+        initialProductName = cellTitles.indexOf("Name") != -1 ? rowCells.get(cellTitles.indexOf("Name")).getText()
+                : null;
+        initialDescription = cellTitles.indexOf("Description") != -1
+                ? rowCells.get(cellTitles.indexOf("Description")).getText()
+                : null;
+        initialProductType = cellTitles.indexOf("Product Type") != -1
+                ? rowCells.get(cellTitles.indexOf("Product Type")).getText()
+                : null;
+        initialWarehouse = cellTitles.indexOf("Warehouse") != -1
+                ? rowCells.get(cellTitles.indexOf("Warehouse")).getText()
+                : null;
         initialPrice = cellTitles.indexOf("Price") != -1 ? rowCells.get(cellTitles.indexOf("Price")).getText() : null;
         initialSize = cellTitles.indexOf("Size") != -1 ? rowCells.get(cellTitles.indexOf("Size")).getText() : null;
-        initialQuantity = cellTitles.indexOf("Quantity") != -1 ? rowCells.get(cellTitles.indexOf("Quantity")).getText() : null;
+        initialQuantity = cellTitles.indexOf("Quantity") != -1 ? rowCells.get(cellTitles.indexOf("Quantity")).getText()
+                : null;
 
         switch (linkText) {
             case "Edit":
@@ -287,7 +295,9 @@ public class InventoryPage {
     }
 
     public void pressConfirmDeleteButton(int index) {
-        WebElement button = deletePopover.findElement(By.id("confirm-delete-inventory-" + index));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait
+                .until(ExpectedConditions.elementToBeClickable(By.id("confirm-delete-inventory-" + index)));
         button.click();
     }
 
@@ -547,15 +557,17 @@ public class InventoryPage {
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
         WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
-        WebElement productTypeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='form_in_modal_categoryName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
-        WebElement warehouseField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='form_in_modal_warehouseName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
+        WebElement productTypeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//input[@id='form_in_modal_categoryName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
+        WebElement warehouseField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//input[@id='form_in_modal_warehouseName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
         WebElement priceField = modal.findElement(By.id("form_in_modal_price"));
         WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
         WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
 
         System.out.println("Product Type: " + productTypeField.getAttribute("title") + " " + initialProductType);
         System.out.println("Warehouse: " + warehouseField.getAttribute("title") + " " + initialWarehouse);
-       
+
         return (brandField.getAttribute("value").equals(initialBrand) &&
                 nameField.getAttribute("value").equals(initialProductName) &&
                 descriptionField.getAttribute("value").equals(initialDescription) &&
@@ -688,7 +700,7 @@ public class InventoryPage {
             if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
                 isMatchingRow = false;
             }
-    
+
             if (isMatchingRow) {
                 return true;
             }
