@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class InventoryPage {
 
@@ -540,11 +542,13 @@ public class InventoryPage {
     }
 
     public boolean formFieldsContainCurrentInventoryItemInformation() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
         WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
-        WebElement productTypeField = modal.findElement(By.xpath("//input[@id='form_in_modal_categoryName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']"));
-        WebElement warehouseField = modal.findElement(By.xpath("//input[@id='form_in_modal_warehouseName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']"));
+        WebElement productTypeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='form_in_modal_categoryName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
+        WebElement warehouseField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='form_in_modal_warehouseName']/ancestor::div[@class='ant-select-selector']//span[@class='ant-select-selection-item']")));
         WebElement priceField = modal.findElement(By.id("form_in_modal_price"));
         WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
         WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));

@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
@@ -164,7 +166,8 @@ public class ProductsPage {
     }
 
     public void selectDeleteDropdownOption() {
-        WebElement deleteMenuItem = dropdown.findElement(By.className("ant-dropdown-menu-item-danger"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+        WebElement deleteMenuItem = wait.until(ExpectedConditions.elementToBeClickable(By.className("ant-dropdown-menu-item-danger")));
         deleteMenuItem.click();
     }
 
