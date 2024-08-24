@@ -273,9 +273,13 @@ public class InventoryPage {
                 : null;
         initialProductType = cellTitles.indexOf("Product Type") != -1
                 ? rowCells.get(cellTitles.indexOf("Product Type")).getText()
+                : driver.findElement(By.id("breadcrumb-product-type")) != null 
+                ? driver.findElement(By.id("breadcrumb-product-type")).getText() 
                 : null;
         initialWarehouse = cellTitles.indexOf("Warehouse") != -1
                 ? rowCells.get(cellTitles.indexOf("Warehouse")).getText()
+                : driver.findElement(By.id("breadcrumb-warehouse-name")) != null 
+                ? driver.findElement(By.id("breadcrumb-warehouse-name")).getText() 
                 : null;
         initialPrice = cellTitles.indexOf("Price") != -1 ? rowCells.get(cellTitles.indexOf("Price")).getText() : null;
         initialSize = cellTitles.indexOf("Size") != -1 ? rowCells.get(cellTitles.indexOf("Size")).getText() : null;
@@ -567,6 +571,15 @@ public class InventoryPage {
 
         System.out.println("Product Type: " + productTypeField.getAttribute("title") + " " + initialProductType);
         System.out.println("Warehouse: " + warehouseField.getAttribute("title") + " " + initialWarehouse);
+
+        System.out.println("Brand: " + brandField.getAttribute("value") + " " + initialBrand);
+        System.out.println("Name:" + nameField.getAttribute("value") + " " + initialProductName);
+        System.out.println("Description" + descriptionField.getAttribute("value") + " " + initialDescription);
+        System.out.println("Product Type" + productTypeField.getAttribute("title") + " " + initialProductType);
+        System.out.println("Warehouse" + warehouseField.getAttribute("title") + " " + initialWarehouse);
+        System.out.println("Price" + priceField.getAttribute("value") + " " + initialPrice);
+        System.out.println("Size" + sizeField.getAttribute("value") + " " + initialSize);
+        System.out.println("Quantity" + quantityField.getAttribute("value") + " " + initialQuantity);
 
         return (brandField.getAttribute("value").equals(initialBrand) &&
                 nameField.getAttribute("value").equals(initialProductName) &&
