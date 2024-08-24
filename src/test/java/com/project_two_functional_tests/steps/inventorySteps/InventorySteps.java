@@ -1,13 +1,10 @@
 package com.project_two_functional_tests.steps.inventorySteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.InventoryPage;
+import com.project_two_functional_tests.utils.HeadlessChromeDriver;
 import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
@@ -33,8 +30,7 @@ public class InventorySteps {
 
     @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
     public void before() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
+        driver = new HeadlessChromeDriver().getDriver();
         this.inventoryPage = new InventoryPage(driver);
         driver.manage().window().maximize();
     }

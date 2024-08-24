@@ -2,10 +2,9 @@ package com.project_two_functional_tests.steps.navigationSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.project_two_functional_tests.pages.NavigationTestsPage;
+import com.project_two_functional_tests.utils.HeadlessChromeDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -29,8 +28,7 @@ public class NavigationSteps {
 
     @Before("@navigation")
     public void before() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
+        driver = new HeadlessChromeDriver().getDriver();
         this.navigationTestsPage = new NavigationTestsPage(driver);
         driver.manage().window().maximize();
     }
