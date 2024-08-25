@@ -569,18 +569,6 @@ public class InventoryPage {
         WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
         WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
 
-        System.out.println("Product Type: " + productTypeField.getAttribute("title") + " " + initialProductType);
-        System.out.println("Warehouse: " + warehouseField.getAttribute("title") + " " + initialWarehouse);
-
-        System.out.println("Brand: " + brandField.getAttribute("value") + " " + initialBrand);
-        System.out.println("Name:" + nameField.getAttribute("value") + " " + initialProductName);
-        System.out.println("Description" + descriptionField.getAttribute("value") + " " + initialDescription);
-        System.out.println("Product Type" + productTypeField.getAttribute("title") + " " + initialProductType);
-        System.out.println("Warehouse" + warehouseField.getAttribute("title") + " " + initialWarehouse);
-        System.out.println("Price" + priceField.getAttribute("value") + " " + initialPrice);
-        System.out.println("Size" + sizeField.getAttribute("value") + " " + initialSize);
-        System.out.println("Quantity" + quantityField.getAttribute("value") + " " + initialQuantity);
-
         return (brandField.getAttribute("value").equals(initialBrand) &&
                 nameField.getAttribute("value").equals(initialProductName) &&
                 descriptionField.getAttribute("value").equals(initialDescription) &&
