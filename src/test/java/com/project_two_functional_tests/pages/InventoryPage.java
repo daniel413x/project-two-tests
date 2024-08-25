@@ -17,11 +17,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.cucumber.messages.types.Exception;
-
 public class InventoryPage {
 
     private WebDriver driver;
+    private WebDriverWait wait;
 
     private static final String url = "http://localhost:5173/inventory?category=all";
 
@@ -59,13 +58,12 @@ public class InventoryPage {
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         PageFactory.initElements(driver, this);
     }
 
     public boolean onPage() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.urlToBe(url));
             return driver.getCurrentUrl().equals(url);
         } catch (NoSuchElementException e) {
@@ -84,7 +82,6 @@ public class InventoryPage {
 
     public boolean inventorySectionLoaded() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("div")));
             return !inventorySection.findElements(By.tagName("div")).isEmpty();
         } catch (NoSuchElementException e) {
@@ -155,7 +152,6 @@ public class InventoryPage {
     public boolean inventoryItemDisplayed(String brand, String productName, String description, String productType,
             String warehouse, String price, String size, String quantity) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOf(headerRow));
             wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
 
@@ -214,7 +210,6 @@ public class InventoryPage {
 
     public boolean inventoryItemNotDisplayed() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOf(headerRow));
             wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
 
@@ -311,7 +306,6 @@ public class InventoryPage {
     }
 
     public void pressConfirmDeleteButton(int index) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement button = wait
                 .until(ExpectedConditions.elementToBeClickable(By.id("confirm-delete-inventory-" + index)));
         button.click();
@@ -568,8 +562,6 @@ public class InventoryPage {
     }
 
     public boolean formFieldsContainCurrentInventoryItemInformation() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
         WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
@@ -667,8 +659,6 @@ public class InventoryPage {
 
     public boolean inventoryItemNotUpdated() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
             wait.until(ExpectedConditions.visibilityOf(headerRow));
             wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
 
