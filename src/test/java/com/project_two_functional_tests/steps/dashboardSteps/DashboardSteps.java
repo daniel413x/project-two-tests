@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.DashboardPage;
 import com.project_two_functional_tests.utils.HeadlessChromeDriver;
-import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -29,7 +28,6 @@ public class DashboardSteps {
     public void after() {
         if (this.driver != null) {
             this.driver.quit();
-            ResetDatabase.run();
         }
     }
 
