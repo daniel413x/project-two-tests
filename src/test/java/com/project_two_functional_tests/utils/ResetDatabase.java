@@ -5,10 +5,11 @@ import java.io.IOException;
 public class ResetDatabase {
     public static void run() {
         try {
-            HttpUtil.sendPostRequest("http://localhost:5000/api/testing/reset");
+            HttpUtil.sendPostRequest(
+                    "http://crag-supply-co-env-4.eba-ndsnmqsj.us-east-1.elasticbeanstalk.com/api/testing/reset");
         } catch (IOException e) {
             System.out.println(e);
         }
     }
-    
+
 }

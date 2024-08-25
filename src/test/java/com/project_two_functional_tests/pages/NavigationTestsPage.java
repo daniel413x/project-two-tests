@@ -12,7 +12,7 @@ public class NavigationTestsPage {
     }
 
     public void navigateToPage(String pageName) {
-        driver.get("http://localhost:5173/" + pageName.toLowerCase());
+        driver.get("http://crag-supply-co-client.s3-website-us-east-1.amazonaws.com/" + pageName.toLowerCase());
     }
 
     public void clickOnNavLinkInSideNavigation(String id) {
