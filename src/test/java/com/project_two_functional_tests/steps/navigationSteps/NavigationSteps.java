@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.NavigationTestsPage;
-import com.project_two_functional_tests.utils.HeadlessFirefoxDriver;
+import com.project_two_functional_tests.utils.HeadlessChromeDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -28,7 +28,7 @@ public class NavigationSteps {
 
     @Before("@navigation")
     public void before() {
-        driver = new HeadlessFirefoxDriver().getDriver();
+        driver = new HeadlessChromeDriver().getDriver();
         this.navigationTestsPage = new NavigationTestsPage(driver);
         driver.manage().window().maximize();
     }
