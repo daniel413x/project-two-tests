@@ -35,9 +35,6 @@ public class InventoryPage {
     private String initialSize;
     private String initialQuantity;
 
-    @FindBy(id = "inventory")
-    private WebElement inventorySection;
-
     @FindBy(tagName = "thead")
     private WebElement headerRow;
 
@@ -82,8 +79,8 @@ public class InventoryPage {
 
     public boolean inventorySectionLoaded() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("div")));
-            return !inventorySection.findElements(By.tagName("div")).isEmpty();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("th")));
+            return !this.driver.findElements(By.tagName("th")).isEmpty();
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             return false;
@@ -312,7 +309,7 @@ public class InventoryPage {
     }
 
     public boolean doesNotContainInventoryMatchingString(String name) {
-        return !inventorySection.getText().contains(name);
+        return this.driver.findElement(By.tagName("main")).getText().contains(name);
     }
 
     public void clickButtonInModal(String buttonText) {
