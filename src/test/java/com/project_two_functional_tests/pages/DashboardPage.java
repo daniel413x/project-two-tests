@@ -12,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 public class DashboardPage {
 
     private WebDriver driver;
-    private static final String url = "http://localhost:5000";
+    private static final String url = "http://localhost:5173";
 
     @FindBy(tagName = "h1")
     private List<WebElement> figures;

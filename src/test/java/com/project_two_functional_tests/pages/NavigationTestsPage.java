@@ -12,7 +12,7 @@ public class NavigationTestsPage {
     }
 
     public void navigateToPage(String pageName) {
-        driver.get("http://localhost:5000/" + pageName.toLowerCase());
+        driver.get("http://localhost:5173/" + pageName.toLowerCase());
     }
 
     public void clickOnNavLinkInSideNavigation(String id) {
