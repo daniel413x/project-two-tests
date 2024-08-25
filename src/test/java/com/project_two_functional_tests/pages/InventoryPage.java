@@ -22,7 +22,7 @@ public class InventoryPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    private static final String url = "http://crag-supply-co-client.s3-website-us-east-1.amazonaws.com/inventory?category=all";
+    private static final String url = "http://localhost:5000/inventory?category=all";
 
     private int filteredRowCount;
 

@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ProductsPage {
 
     private WebDriver driver;
-    private static final String url = "http://crag-supply-co-client.s3-website-us-east-1.amazonaws.com/products";
+    private static final String url = "http://localhost:5000/products";
     private String editedCardCategoryName;
     private String deletedCardCategoryName;
 
