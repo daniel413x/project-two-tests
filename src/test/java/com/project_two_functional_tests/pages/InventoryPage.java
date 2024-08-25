@@ -22,7 +22,7 @@ public class InventoryPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    private static final String url = "http://localhost:5173/inventory?category=all";
+    private static final String url = "http://crag-supply-co-client.s3-website-us-east-1.amazonaws.com/inventory?category=all";
 
     private int filteredRowCount;
 
@@ -78,14 +78,13 @@ public class InventoryPage {
     }
 
     public boolean inventorySectionLoaded() {
-        // try {
-        //     wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("th")));
-        //     return !this.driver.findElements(By.tagName("th")).isEmpty();
-        // } catch (NoSuchElementException e) {
-        //     e.printStackTrace();
-        //     return false;
-        // }
-        return true;
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("th")));
+            return !this.driver.findElements(By.tagName("th")).isEmpty();
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // TODO: define helper code on the frontend for more substantial "inventory

@@ -12,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 public class DashboardPage {
 
     private WebDriver driver;
-    private static final String url = "http://localhost:5173";
+    private static final String url = "http://crag-supply-co-client.s3-website-us-east-1.amazonaws.com";
 
     @FindBy(tagName = "h1")
     private List<WebElement> figures;
