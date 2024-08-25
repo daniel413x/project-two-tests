@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,9 +17,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.cucumber.messages.types.Exception;
+
 public class InventoryPage {
 
     private WebDriver driver;
+
     private static final String url = "http://localhost:5173/inventory?category=all";
 
     private int filteredRowCount;
@@ -54,25 +59,22 @@ public class InventoryPage {
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         PageFactory.initElements(driver, this);
     }
 
     public boolean onPage() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.urlToBe(url));
+            return driver.getCurrentUrl().equals(url);
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
-        }
-        return driver.getCurrentUrl().equals(url);
+            return false;
+        } 
     }
 
     public void get() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         this.driver.get(url);
     }
 
@@ -82,11 +84,13 @@ public class InventoryPage {
 
     public boolean inventorySectionLoaded() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("div")));
+            return !inventorySection.findElements(By.tagName("div")).isEmpty();
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
+            return false;
         }
-        return !inventorySection.findElements(By.tagName("div")).isEmpty();
     }
 
     // TODO: define helper code on the frontend for more substantial "inventory
@@ -151,112 +155,120 @@ public class InventoryPage {
     public boolean inventoryItemDisplayed(String brand, String productName, String description, String productType,
             String warehouse, String price, String size, String quantity) {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(headerRow));
+            wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
+
+            List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
+            List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+            for (WebElement row : inventoryItemRows) {
+
+                List<WebElement> rowCells = row.findElements(By.tagName("td"));
+                List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+                boolean isMatchingRow = true;
+
+                if (!brand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
+                    isMatchingRow = false;
+                }
+                if (!productName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
+                    isMatchingRow = false;
+                }
+                if (!description.equals(rowValues.get(cellTitles.indexOf("Description")))) {
+                    isMatchingRow = false;
+                }
+
+                if (cellTitles.contains("Product Type")) {
+                    if (productType != null && !productType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (cellTitles.contains("Warehouse")) {
+                    if (warehouse != null && !warehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (!price.equals(rowValues.get(cellTitles.indexOf("Price")))) {
+                    isMatchingRow = false;
+                }
+                if (size != null && !size.equals(rowValues.get(cellTitles.indexOf("Size")))) {
+                    isMatchingRow = false;
+                }
+                if (!quantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
+                    isMatchingRow = false;
+                }
+
+                if (isMatchingRow) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (TimeoutException e) {
             e.printStackTrace();
+            return false;
         }
-        List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
-        List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        for (WebElement row : inventoryItemRows) {
-
-            List<WebElement> rowCells = row.findElements(By.tagName("td"));
-            List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-            boolean isMatchingRow = true;
-
-            if (!brand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
-                isMatchingRow = false;
-            }
-            if (!productName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
-                isMatchingRow = false;
-            }
-            if (!description.equals(rowValues.get(cellTitles.indexOf("Description")))) {
-                isMatchingRow = false;
-            }
-
-            if (cellTitles.contains("Product Type")) {
-                if (productType != null && !productType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (cellTitles.contains("Warehouse")) {
-                if (warehouse != null && !warehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (!price.equals(rowValues.get(cellTitles.indexOf("Price")))) {
-                isMatchingRow = false;
-            }
-            if (size != null && !size.equals(rowValues.get(cellTitles.indexOf("Size")))) {
-                isMatchingRow = false;
-            }
-            if (!quantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
-                isMatchingRow = false;
-            }
-
-            if (isMatchingRow) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean inventoryItemNotDisplayed() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOf(headerRow));
+            wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
+
+            List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
+            List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+            for (WebElement row : inventoryItemRows) {
+
+                List<WebElement> rowCells = row.findElements(By.tagName("td"));
+                List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+                boolean isMatchingRow = true;
+
+                if (!initialBrand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialProductName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
+                    isMatchingRow = false;
+                }
+                if (initialDescription.equals(rowValues.get(cellTitles.indexOf("Description")))) {
+                    isMatchingRow = false;
+                }
+
+                if (cellTitles.contains("Product Type")) {
+                    if (!initialProductType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (cellTitles.contains("Warehouse")) {
+                    if (!initialWarehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (!initialPrice.equals(rowValues.get(cellTitles.indexOf("Price")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialSize.equals(rowValues.get(cellTitles.indexOf("Size")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
+                    isMatchingRow = false;
+                }
+
+                if (isMatchingRow) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (TimeoutException e) {
             e.printStackTrace();
+            return false;
         }
-        List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
-        List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        for (WebElement row : inventoryItemRows) {
-
-            List<WebElement> rowCells = row.findElements(By.tagName("td"));
-            List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-            boolean isMatchingRow = true;
-
-            if (!initialBrand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
-                isMatchingRow = false;
-            }
-            if (!initialProductName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
-                isMatchingRow = false;
-            }
-            if (initialDescription.equals(rowValues.get(cellTitles.indexOf("Description")))) {
-                isMatchingRow = false;
-            }
-
-            if (cellTitles.contains("Product Type")) {
-                if (!initialProductType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (cellTitles.contains("Warehouse")) {
-                if (!initialWarehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (!initialPrice.equals(rowValues.get(cellTitles.indexOf("Price")))) {
-                isMatchingRow = false;
-            }
-            if (!initialSize.equals(rowValues.get(cellTitles.indexOf("Size")))) {
-                isMatchingRow = false;
-            }
-            if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
-                isMatchingRow = false;
-            }
-
-            if (isMatchingRow) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void selectLinkOnRow(int index, String linkText) {
@@ -556,7 +568,7 @@ public class InventoryPage {
     }
 
     public boolean formFieldsContainCurrentInventoryItemInformation() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
@@ -655,58 +667,62 @@ public class InventoryPage {
 
     public boolean inventoryItemNotUpdated() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+            wait.until(ExpectedConditions.visibilityOf(headerRow));
+            wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItemRows));
+
+            List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
+            List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+            for (WebElement row : inventoryItemRows) {
+
+                List<WebElement> rowCells = row.findElements(By.tagName("td"));
+                List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+                boolean isMatchingRow = true;
+
+                if (!initialBrand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialProductName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialDescription.equals(rowValues.get(cellTitles.indexOf("Description")))) {
+                    isMatchingRow = false;
+                }
+
+                if (cellTitles.contains("Product Type")) {
+                    if (!initialProductType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (cellTitles.contains("Warehouse")) {
+                    if (!initialWarehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
+                        isMatchingRow = false;
+                    }
+                }
+
+                if (!initialPrice.equals(rowValues.get(cellTitles.indexOf("Price")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialSize.equals(rowValues.get(cellTitles.indexOf("Size")))) {
+                    isMatchingRow = false;
+                }
+                if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
+                    isMatchingRow = false;
+                }
+
+                if (isMatchingRow) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (TimeoutException e) {
             e.printStackTrace();
+            return false;
         }
-
-        List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
-        List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        for (WebElement row : inventoryItemRows) {
-
-            List<WebElement> rowCells = row.findElements(By.tagName("td"));
-            List<String> rowValues = rowCells.stream().map(WebElement::getText).collect(Collectors.toList());
-
-            boolean isMatchingRow = true;
-
-            if (!initialBrand.equals(rowValues.get(cellTitles.indexOf("Brand")))) {
-                isMatchingRow = false;
-            }
-            if (!initialProductName.equals(rowValues.get(cellTitles.indexOf("Name")))) {
-                isMatchingRow = false;
-            }
-            if (!initialDescription.equals(rowValues.get(cellTitles.indexOf("Description")))) {
-                isMatchingRow = false;
-            }
-
-            if (cellTitles.contains("Product Type")) {
-                if (!initialProductType.equals(rowValues.get(cellTitles.indexOf("Product Type")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (cellTitles.contains("Warehouse")) {
-                if (!initialWarehouse.equals(rowValues.get(cellTitles.indexOf("Warehouse")))) {
-                    isMatchingRow = false;
-                }
-            }
-
-            if (!initialPrice.equals(rowValues.get(cellTitles.indexOf("Price")))) {
-                isMatchingRow = false;
-            }
-            if (!initialSize.equals(rowValues.get(cellTitles.indexOf("Size")))) {
-                isMatchingRow = false;
-            }
-            if (!initialQuantity.equals(rowValues.get(cellTitles.indexOf("Quantity")))) {
-                isMatchingRow = false;
-            }
-
-            if (isMatchingRow) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
