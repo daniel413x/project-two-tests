@@ -19,7 +19,7 @@ import com.project_two_functional_tests.utils.StateConverter;
 public class WarehousesPage {
 
     private WebDriver driver;
-    private static final String url = "http://localhost:5000/warehouses";
+    private static final String url = "http://localhost:5173/warehouses";
     private String editedCardWarehouseName;
     private String editedCardMaxCapacity;
     private String editedCardCity;

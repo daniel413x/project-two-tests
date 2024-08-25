@@ -22,7 +22,7 @@ public class InventoryPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    private static final String url = "http://localhost:5000/inventory?category=all";
+    private static final String url = "http://localhost:5173/inventory?category=all";
 
     private int filteredRowCount;
 

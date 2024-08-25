@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ProductsPage {
 
     private WebDriver driver;
-    private static final String url = "http://localhost:5000/products";
+    private static final String url = "http://localhost:5173/products";
     private String editedCardCategoryName;
     private String deletedCardCategoryName;
 
