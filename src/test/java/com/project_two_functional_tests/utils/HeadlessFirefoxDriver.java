@@ -16,6 +16,7 @@ public class HeadlessFirefoxDriver {
 
     public HeadlessFirefoxDriver() {
         // Determine if headless mode should be used
+        System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
         String headlessEnv = System.getProperty("headless", "false");
         boolean headless = Boolean.parseBoolean(headlessEnv);
 
@@ -39,7 +40,6 @@ public class HeadlessFirefoxDriver {
         LoggingPreferences logs = new LoggingPreferences();
         logs.enable(LogType.BROWSER, Level.ALL);
         logs.enable(LogType.DRIVER, Level.ALL);
-        logs.enable(LogType.SERVER, Level.ALL);
         logs.enable(LogType.SERVER, Level.ALL);
 
         // Add logging preferences to FirefoxOptions
