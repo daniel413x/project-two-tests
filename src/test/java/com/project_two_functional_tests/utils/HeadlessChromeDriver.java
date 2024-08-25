@@ -18,6 +18,7 @@ public class HeadlessChromeDriver {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
             options.addArguments("--window-size=1920,1080");
+            options.setBinary("/usr/bin/chromedriver --verbose");
         }
         driver = new ChromeDriver(options);
     }
