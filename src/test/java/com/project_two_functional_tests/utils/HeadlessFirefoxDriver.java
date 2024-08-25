@@ -22,7 +22,6 @@ public class HeadlessFirefoxDriver {
         // Create FirefoxOptions instance
         FirefoxOptions options = new FirefoxOptions();
 
-        options.setBinary("/opt/firefox/firefox");
         options.setLogLevel(FirefoxDriverLogLevel.TRACE);
         options.setCapability("moz:firefoxOptions", Map.of("log", Map.of("level", "trace")));
 
@@ -40,6 +39,7 @@ public class HeadlessFirefoxDriver {
         LoggingPreferences logs = new LoggingPreferences();
         logs.enable(LogType.BROWSER, Level.ALL);
         logs.enable(LogType.DRIVER, Level.ALL);
+        logs.enable(LogType.SERVER, Level.ALL);
         logs.enable(LogType.SERVER, Level.ALL);
 
         // Add logging preferences to FirefoxOptions
