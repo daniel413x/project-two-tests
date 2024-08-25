@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.ProductsPage;
-import com.project_two_functional_tests.utils.HeadlessChromeDriver;
+import com.project_two_functional_tests.utils.HeadlessFirefoxDriver;
 import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
@@ -23,7 +23,7 @@ public class ProductsSteps {
 
     @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void before() {
-        driver = new HeadlessChromeDriver().getDriver();
+        driver = new HeadlessFirefoxDriver().getDriver();
         this.productsPage = new ProductsPage(driver);
         driver.manage().window().maximize();
     }

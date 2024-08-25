@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.DashboardPage;
-import com.project_two_functional_tests.utils.HeadlessChromeDriver;
+import com.project_two_functional_tests.utils.HeadlessFirefoxDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -19,7 +19,7 @@ public class DashboardSteps {
 
     @Before("@dashboard-statistics")
     public void before() {
-        driver = new HeadlessChromeDriver().getDriver();
+        driver = new HeadlessFirefoxDriver().getDriver();
         this.dashboardPage = new DashboardPage(driver);
         driver.manage().window().maximize();
     }

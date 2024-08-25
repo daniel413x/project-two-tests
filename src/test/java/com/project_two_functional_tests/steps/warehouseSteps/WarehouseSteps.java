@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.WarehousesPage;
-import com.project_two_functional_tests.utils.HeadlessChromeDriver;
+import com.project_two_functional_tests.utils.HeadlessFirefoxDriver;
 import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
@@ -27,7 +27,7 @@ public class WarehouseSteps {
 
     @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void before() {
-        driver = new HeadlessChromeDriver().getDriver();
+        driver = new HeadlessFirefoxDriver().getDriver();
         this.warehousesPage = new WarehousesPage(driver);
         driver.manage().window().maximize();
     }
