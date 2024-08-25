@@ -1,9 +1,11 @@
 package com.project_two_functional_tests.utils;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -21,6 +23,8 @@ public class HeadlessFirefoxDriver {
         FirefoxOptions options = new FirefoxOptions();
 
         options.setBinary("/opt/firefox/firefox");
+        options.setLogLevel(FirefoxDriverLogLevel.TRACE);
+        options.setCapability("moz:firefoxOptions", Map.of("log", Map.of("level", "trace")));
 
 
         // Add headless-specific options if required
