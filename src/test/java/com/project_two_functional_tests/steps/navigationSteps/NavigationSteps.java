@@ -5,9 +5,11 @@ import org.openqa.selenium.WebDriver;
 
 import com.project_two_functional_tests.pages.NavigationTestsPage;
 import com.project_two_functional_tests.utils.HeadlessChromeDriver;
+import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -26,13 +28,18 @@ public class NavigationSteps {
 
     private String currentPage;
 
+    @BeforeAll
+    public static void resetDatabaseBeforeAll() {
+        ResetDatabase.run();
+    }
+
     @Before("@navigation")
     public void before() {
         driver = new HeadlessChromeDriver().getDriver();
         this.navigationTestsPage = new NavigationTestsPage(driver);
         driver.manage().window().maximize();
     }
-    
+
     @After("@navigation")
     public void afterTest() {
         if (driver != null) {

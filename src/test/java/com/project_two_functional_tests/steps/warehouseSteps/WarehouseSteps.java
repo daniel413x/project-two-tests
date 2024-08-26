@@ -9,6 +9,7 @@ import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -24,6 +25,11 @@ public class WarehouseSteps {
     private String testCity = "Washington";
     private String testState = "District of Columbia"; // Go DC Statehood
     private String testZipCode = "20009";
+
+    @BeforeAll
+    public static void resetDatabaseBeforeAll() {
+        ResetDatabase.run();
+    }
 
     @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
     public void before() {
@@ -88,7 +94,8 @@ public class WarehouseSteps {
 
     @And("edit the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields")
     public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
-        this.warehousesPage.editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName, testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
+        this.warehousesPage.editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName,
+                testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
     }
 
     @Then("I should click the {string} button")

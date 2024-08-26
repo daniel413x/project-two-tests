@@ -9,6 +9,7 @@ import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -27,6 +28,11 @@ public class InventorySteps {
     private String testPrice = "59.99";
     private String testSize = "11";
     private String testQuantity = "16";
+
+    @BeforeAll
+    public static void resetDatabaseBeforeAll() {
+        ResetDatabase.run();
+    }
 
     @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
     public void before() {
@@ -79,7 +85,8 @@ public class InventorySteps {
 
     @When("I enter valid inputs for all form fields")
     public void iEnterValidInputsForAllFormFields() {
-        this.inventoryPage.enterFormInputs(testBrand, testProductName, testDescription, testProductType, testWarehouse, testPrice, testSize, testQuantity);
+        this.inventoryPage.enterFormInputs(testBrand, testProductName, testDescription, testProductType, testWarehouse,
+                testPrice, testSize, testQuantity);
     }
 
     @And("I press the submit button")
@@ -89,12 +96,14 @@ public class InventorySteps {
 
     @Then("I should see the new inventory item row displayed")
     public void iShouldSeeNewInventoryItemRowDisplayed() {
-        assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription, testProductType, testWarehouse, testPrice, testSize, testQuantity));
+        assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription,
+                testProductType, testWarehouse, testPrice, testSize, testQuantity));
     }
 
     /**
-      * Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages
-      */ 
+     * Delete an inventory item for the all inventory, warehouse inventory, and
+     * product category inventory pages
+     */
 
     @And("I select the {string} link on a row")
     public void iSelectLinkOnARow(String linkText) {
@@ -102,7 +111,7 @@ public class InventorySteps {
     }
 
     @Then("I select the Delete button in the popover")
-    public void iSelectDeleteButtonInPopover () {
+    public void iSelectDeleteButtonInPopover() {
         inventoryPage.pressConfirmDeleteButton(0);
     }
 
@@ -118,17 +127,20 @@ public class InventorySteps {
 
     @And("edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields")
     public void editBrandProductNameDescriptionProductTypeWarehousePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, testWarehouse, testPrice, testSize, testQuantity);
+        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, testWarehouse,
+                testPrice, testSize, testQuantity);
     }
 
     @And("edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields")
     public void editBrandProductNameDescriptionWarehousePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, null, testWarehouse, testPrice, testSize, testQuantity);
+        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, null, testWarehouse, testPrice,
+                testSize, testQuantity);
     }
 
     @And("edit the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields")
     public void editBrandProductNameDescriptionProductTypePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, null, testPrice, testSize, testQuantity);
+        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, null, testPrice,
+                testSize, testQuantity);
     }
 
     @Then("I should click the {string} button")
@@ -138,7 +150,8 @@ public class InventorySteps {
 
     @And("see the inventory item row updated")
     public void seeInventoryItemUpdated() {
-        assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription, testProductType, testWarehouse, testPrice, testSize, testQuantity));
+        assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription,
+                testProductType, testWarehouse, testPrice, testSize, testQuantity));
     }
 
     @And("see the inventory item row unchanged")
@@ -147,17 +160,17 @@ public class InventorySteps {
     }
 
     @And("I select the {string} icon on the {string} column")
-    public void iSelectIconOnColumn (String iconType, String columnName) {
+    public void iSelectIconOnColumn(String iconType, String columnName) {
         this.inventoryPage.selectIconOnColumn(columnName, iconType);
     }
 
     @Then("I should see a search modal displayed")
-    public void iShouldSeeSearchModalDisplayed () {
+    public void iShouldSeeSearchModalDisplayed() {
         assertTrue(this.inventoryPage.searchModalIsDisplayed());
     }
 
     @Then("I should enter {string} in the search field")
-    public void iShouldEnterValueInSearchField (String value) {
+    public void iShouldEnterValueInSearchField(String value) {
         this.inventoryPage.enterInputInSearchField(value);
     }
 
@@ -175,19 +188,19 @@ public class InventorySteps {
     public void iShouldSeeAllRowsWhereColumnHasAnyValue() {
         this.inventoryPage.columnRowsAreNotFiltered();
     }
-    
+
     @Then("{string} rows should be in {string} order")
     public void rowsShouldBeInOrder(String columnName, String columnOrder) {
-        if (columnName.equals("Price") || columnName.equals("Quantity")){
+        if (columnName.equals("Price") || columnName.equals("Quantity")) {
             switch (columnOrder) {
                 case "asc" -> assertTrue(this.inventoryPage.columnRowsAreInNumericAscOrder(columnName));
                 case "desc" -> assertTrue(this.inventoryPage.columnRowsAreInNumericDescOrder(columnName));
-            } 
-        }  else {
+            }
+        } else {
             switch (columnOrder) {
                 case "asc" -> assertTrue(this.inventoryPage.columnRowsAreInAlphaAscOrder(columnName));
                 case "desc" -> assertTrue(this.inventoryPage.columnRowsAreInAlphaDescOrder(columnName));
-            } 
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import com.project_two_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,6 +21,11 @@ public class ProductsSteps {
     private ProductsPage productsPage;
 
     private String testCategory = "Crampons";
+
+    @BeforeAll
+    public static void resetDatabaseBeforeAll() {
+        ResetDatabase.run();
+    }
 
     @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
     public void before() {
