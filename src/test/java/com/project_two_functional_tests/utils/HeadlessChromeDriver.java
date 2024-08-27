@@ -17,7 +17,7 @@ public class HeadlessChromeDriver {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
             options.addArguments("--window-size=1920,1080");
-            options.add_argument("--remote-debugging-pipe");
+            options.addArguments("--remote-debugging-pipe");
         }
         driver = new ChromeDriver(options);
     }
