@@ -67,6 +67,11 @@ public class NavigationSteps {
         driver.get(url);
     }
 
+    /**
+     * 01-navigation.feature
+     * Scenario Outline: Side Navigation
+     */
+
     @When("I click on {string} in the side navigation")
     public void iClickOnANavLinkInTheSideNavigation(String targetPage) {
         String id = targetPage.toLowerCase();
@@ -78,6 +83,11 @@ public class NavigationSteps {
         }
         navigationTestsPage.clickOnNavLinkInSideNavigation(id);
     }
+
+    /**
+     * 01-navigation.feature
+     * Scenario Outline: Breadcrumbs
+     */
 
     @When("I click on {string} in the breadcrumbs")
     public void iClickOnInTheBreadcrumbs(String page) {

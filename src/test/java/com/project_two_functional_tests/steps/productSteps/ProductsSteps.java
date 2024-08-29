@@ -52,10 +52,20 @@ public class ProductsSteps {
         this.productsPage.productCategoryCardsLoaded();
     }
 
+    /**
+     * 01-product-categories.feature
+     * Scenario: Product categories are shown 
+     */
+
     @Then("I should see product categories")
     public void iShouldSeeTheProductCategories() {
         assertTrue(this.productsPage.iShouldSeeTheProductCategories());
     }
+
+    /**
+     * 02-product-categories-creation.feature
+     * Scenario: A new product category is created
+     */
 
     @And("I have opened the create product category form modal")
     public void iHaveOpenedTheCreateProductCategoryFormModal() {
@@ -77,6 +87,11 @@ public class ProductsSteps {
         assertTrue(this.productsPage.containsProductCategoryWithName(testCategory));
     }
 
+    /**
+     * 03-product-categories-update.feature, 04-product-categories-delete.feature
+     * Features: Update product category, Delete product category
+     */
+
     @And("I select the {string} icon on a category card")
     public void iSelectTheIconOnACard(String iconType) {
         this.productsPage.selectIconOnCard(iconType);
@@ -92,6 +107,11 @@ public class ProductsSteps {
         this.productsPage.editUpdateField(testCategory);
     }
 
+    /**
+     * 03-product-categories-update.feature
+     * Scenario: Save product category update 
+     */
+
     @Then("I should click the {string} button")
     public void iShouldClickTheButton(String buttonText) {
         this.productsPage.clickButtonInModal(buttonText);
@@ -102,10 +122,20 @@ public class ProductsSteps {
         assertTrue(this.productsPage.savedCardIsUpdated(testCategory));
     }
 
+    /**
+     * 03-product-categories-update.feature
+     * Scenario: Cancel product category update 
+     */
+
     @And("see the category name unchanged")
     public void seeTheCategoryNameUnchanged() {
         assertTrue(this.productsPage.canceledCardIsNotUpdated());
     }
+
+    /**
+     * 04-product-categories-delete.feature
+     * Scenario: Delete product category 
+     */
 
     @And("select Delete from the dropdown")
     public void selectDeleteFromDropdown() {

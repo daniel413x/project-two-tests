@@ -87,8 +87,6 @@ public class InventoryPage {
         }
     }
 
-    // TODO: define helper code on the frontend for more substantial "inventory
-    // list" tests
     public boolean allInventoryIsDisplayed() {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());

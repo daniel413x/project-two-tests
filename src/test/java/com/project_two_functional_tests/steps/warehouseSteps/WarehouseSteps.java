@@ -56,10 +56,20 @@ public class WarehouseSteps {
         this.warehousesPage.warehouseCardsLoaded();
     }
 
+    /**
+     * 01-warehouses.feature
+     * Scenario: Warehouse are shown 
+     */
+
     @Then("I should see warehouses")
     public void iShouldSeeTheWarehouses() {
         assertTrue(this.warehousesPage.containsWarehouseWithName("CA1"));
     }
+
+    /**
+     * 02-warehouses-creation.feature
+     * Scenario: A new warehouse is created
+     */
 
     @And("I have opened the create warehouse form modal")
     public void iHaveOpenedTheCreateWarehouseFormModal() {
@@ -82,10 +92,20 @@ public class WarehouseSteps {
         assertTrue(this.warehousesPage.containsWarehouseWithName(testWarehouseName));
     }
 
+    /**
+     * 03-warehouse-update.feature, 04-warehouse-delete.feature
+     * Features: Update warehouse, Delete warehouse
+     */
+
     @And("I select the {string} icon on a warehouse card")
     public void iSelectTheIconOnACard(String iconType) {
         this.warehousesPage.selectIconOnCard(0, iconType);
     }
+
+    /**
+     * 03-warehouse-update.feature
+     * Scenarios: Save warehouse update,  Cancel warehouse update
+     */
 
     @Then("I should see a form with pre-filled fields of current warehouse information")
     public void iShouldSeeWarehouseFormFieldsPrefilled() {
@@ -132,6 +152,11 @@ public class WarehouseSteps {
     public void seeMaxCapacityUnchanged() {
         assertTrue(this.warehousesPage.maxCapacityIsNotUpdated());
     }
+
+    /**
+     * 04-warehouse-delete.feature
+     * Scenarios: Delete warehouse
+     */
 
     @And("select Delete from the dropdown")
     public void selectDeleteFromDropdown() {

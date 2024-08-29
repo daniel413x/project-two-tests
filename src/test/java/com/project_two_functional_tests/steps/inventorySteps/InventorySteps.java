@@ -49,6 +49,11 @@ public class InventorySteps {
         }
     }
 
+    /**
+     * 01-inventory-list.feature
+     * Feature: Inventory lists
+     */
+
     @Given("I am on the {string} inventory page")
     public void iAmOnTheInventoryPage(String type) {
         String url;
@@ -78,6 +83,11 @@ public class InventorySteps {
         }
     }
 
+    /**
+     * 03-inventory-creation.feature
+     * Scenario Outline: Create a new item in inventory for the all inventory, warehouse inventory, and product category inventory pages
+     */
+     
     @And("I have opened the create inventory modal")
     public void iHaveOpenedTheCreateInventoryModal() {
         inventoryPage.clickCreateInventoryButton();
@@ -101,10 +111,10 @@ public class InventorySteps {
     }
 
     /**
-     * Delete an inventory item for the all inventory, warehouse inventory, and
-     * product category inventory pages
+     * 03-inventory-delete.feature
+     * Scenario Outline: Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages
      */
-
+     
     @And("I select the {string} link on a row")
     public void iSelectLinkOnARow(String linkText) {
         this.inventoryPage.selectLinkOnRow(0, linkText);
@@ -120,6 +130,14 @@ public class InventorySteps {
         assertTrue(inventoryPage.inventoryItemNotDisplayed());
     }
 
+    /**
+     * 05-inventory-update.feature
+     * Scenarios: 
+     * Save inventory item update on all inventory page
+     * Save inventory item update on a warehouse inventory page
+     * Save inventory item update on a product category page
+     */
+     
     @Then("I should see a form with pre-filled fields of current inventory item information")
     public void iShouldSeeInventoryItemFormFieldsPrefilled() {
         assertTrue(this.inventoryPage.formFieldsContainCurrentInventoryItemInformation());
@@ -154,9 +172,32 @@ public class InventorySteps {
                 testProductType, testWarehouse, testPrice, testSize, testQuantity));
     }
 
+    /**
+     * 05-inventory-update.feature
+     * Scenarios: 
+     * Cancel inventory item update on all inventory page
+     * Cancel inventory item update on a warehouse inventory page
+     * Cancel inventory item update on a product category page
+     */
+     
     @And("see the inventory item row unchanged")
     public void seeInventoryItemUnchanged() {
         assertTrue(this.inventoryPage.inventoryItemNotUpdated());
+    }
+
+    /**
+     * 04-inventory-search.feature
+     * Scenario Outlines:
+     * Search inventory items on all inventory page
+     * Reset search of inventory items on all inventory page
+     * Search inventory items on a warehouse inventory page
+     * Reset search of inventory items on a warehouse inventory page
+     * Reset search of inventory items on a product category page
+     */
+
+    @And("I have searched {string} for {string}")
+    public void iHaveSearchedColumnForValue(String columnName, String value) {
+        this.inventoryPage.searchColumnForValue(columnName, value);
     }
 
     @And("I select the {string} icon on the {string} column")
@@ -202,11 +243,6 @@ public class InventorySteps {
                 case "desc" -> assertTrue(this.inventoryPage.columnRowsAreInAlphaDescOrder(columnName));
             }
         }
-    }
-
-    @And("I have searched {string} for {string}")
-    public void iHaveSearchedColumnForValue(String columnName, String value) {
-        this.inventoryPage.searchColumnForValue(columnName, value);
     }
 
 }

@@ -48,6 +48,11 @@ public class DashboardSteps {
         this.dashboardPage.dashboardFiguresLoaded();
     }
 
+    /**
+     * 01-dashboard-statistics.feature
+     * Feature: Dashboard Statistics
+     */
+
     @Then("I should see the {string} with a value of {string}")
     public void iShouldSeeTitleWithAValueOfValue(String title, String value) {
         assertTrue(this.dashboardPage.iShouldSeeCard(title, value));
