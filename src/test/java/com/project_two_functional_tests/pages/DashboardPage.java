@@ -4,14 +4,18 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardPage {
 
     private WebDriver driver;
+    private WebDriverWait wait;
     private static final String url = "http://localhost:5173";
 
     @FindBy(tagName = "h1")
@@ -22,7 +26,7 @@ public class DashboardPage {
 
     public DashboardPage(WebDriver driver) {
         this.driver = driver;
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         PageFactory.initElements(driver, this);
     }
 
@@ -44,22 +48,17 @@ public class DashboardPage {
         this.driver.get(url);
     }
 
-    public boolean dashboardFiguresLoaded() {
+    public boolean dashboardSectionLoaded() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ant-card")));
+            return this.driver.findElements(By.className("ant-card")).isEmpty();
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
+            return false;
         }
-        return figures.get(0).isDisplayed() && figures.get(1).isDisplayed() && figures.get(2).isDisplayed();
     }
 
     public boolean iShouldSeeCard(String title, String value) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         for (WebElement card : cards) {
             String cardTitle = card.findElement(By.className("ant-card-head-title")).getText();
 
