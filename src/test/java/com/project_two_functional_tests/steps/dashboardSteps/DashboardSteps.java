@@ -45,7 +45,7 @@ public class DashboardSteps {
 
     @When("the dashboard loads")
     public void theDashboardLoads() {
-        this.dashboardPage.dashboardFiguresLoaded();
+        this.dashboardPage.dashboardSectionLoaded();
     }
 
     /**
