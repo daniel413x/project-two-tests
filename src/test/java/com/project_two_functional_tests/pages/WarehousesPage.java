@@ -44,6 +44,7 @@ public class WarehousesPage {
         PageFactory.initElements(driver, this);
     }
 
+    // Verify if the current page URL matches the expected URL
     public boolean onPage() {
         try {
             Thread.sleep(1000);
@@ -53,6 +54,7 @@ public class WarehousesPage {
         return driver.getCurrentUrl().equals(url);
     }
 
+    // Navigate to the specified URL
     public void get() {
         try {
             Thread.sleep(1000);
@@ -62,6 +64,7 @@ public class WarehousesPage {
         this.driver.get(url);
     }
 
+    // Check if the warehouse cards are loaded
     public boolean warehouseCardsLoaded() {
         try {
             Thread.sleep(1000);
@@ -71,7 +74,8 @@ public class WarehousesPage {
         return cards.size() > 0;
     }
 
-    public boolean iShouldSeeTheProductCategories() {
+    // Verify if all warehouses are displayed by checking related cards
+    public boolean iShouldSeeTheWarehouses() {
         for (WebElement card : cards) {
             String title = card.findElement(By.className("ant-card-meta-title")).getText();
             if (title.equals("CA1"))
@@ -80,11 +84,13 @@ public class WarehousesPage {
         return false;
     }
 
+    // Click the button to create new warehouse
     public void clickOnCreateWarehouseButton() {
         addWarehouseButton.click();
         modal.isDisplayed();
     }
 
+    // Fill out form input in the modal
     public void enterFormInputs(String warehouseName, String maxCapacity, String streetAddress, String city,
             String state, String zipCode) {
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
@@ -102,11 +108,13 @@ public class WarehousesPage {
         zipCodeField.sendKeys(zipCode);
     }
 
+    // Click the submit button on the modal
     public void clickOnModalSubmitButton() {
         WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
         button.click();
     }
 
+    // Check if any cards contain matching name (returns true if found)
     public boolean containsWarehouseWithName(String name) {
         try {
             Thread.sleep(1000);
@@ -121,6 +129,7 @@ public class WarehousesPage {
         return false;
     }
 
+    // Check if any cards contain matching name (returns false if found)
     public boolean doesNotContainWarehouseWithName(String name) {
         try {
             Thread.sleep(1000);
@@ -135,6 +144,7 @@ public class WarehousesPage {
         return true;
     }
 
+    // Click on "Edit" or "..." button on card
     public void selectIconOnCard(int index, String iconType) {
         try {
             Thread.sleep(1000);
@@ -164,6 +174,8 @@ public class WarehousesPage {
         }
     }
 
+    // Checks if the form field contains the current warehouse information based on
+    // the initial values
     public boolean formFieldsContainCurrentWarehouseInformation() {
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
         WebElement cityField = modal.findElement(By.id("form_in_modal_city"));
@@ -174,10 +186,14 @@ public class WarehousesPage {
                 stateField.getAttribute("title").equals(StateConverter.getStateName(editedCardState));
     }
 
+    // Edits the inputs in the form fields with the specified values, replacing the
+    // existing inputs
     public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(String warehouseName, String maxCapacity,
             String streetAddress, String city, String state, String zipCode) {
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
 
+        // Clear method won't work due to the way the initial value of the field is
+        // being set
         for (int i = 0; i < editedCardWarehouseName.length(); i++) {
             nameField.sendKeys(Keys.BACK_SPACE);
         }
@@ -230,6 +246,7 @@ public class WarehousesPage {
         zipCodeField.sendKeys(zipCode);
     }
 
+    // Click "Save" or "Cancel" button in form modal
     public void clickButtonInModal(String buttonText) {
         switch (buttonText) {
             case "Save":
@@ -242,6 +259,8 @@ public class WarehousesPage {
         }
     }
 
+    // Checks that card is updated after save by verifying it contains the new
+    // information
     public boolean savedCardIsUpdated(String newWarehouseName, String newCity,
             String newState) {
         try {
@@ -264,6 +283,8 @@ public class WarehousesPage {
         return false;
     }
 
+    // Checks that card is not updated after cancel by verifying it contains the
+    // initial information
     public boolean canceledCardIsNotUpdated() {
         try {
             Thread.sleep(1000);
@@ -285,6 +306,7 @@ public class WarehousesPage {
         return false;
     }
 
+    // Click card with specified warehouse name
     public void selectWarehouseCard(String cardName) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -300,6 +322,7 @@ public class WarehousesPage {
         }
     }
 
+    // Click the warehouse card that was edited
     public void selectWarehouseCard() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -315,6 +338,7 @@ public class WarehousesPage {
         }
     }
 
+    // Verify max capacity is updated to the new max capacity
     public boolean maxCapacityIsUpdated(String newMaxCapacity) {
         try {
             Thread.sleep(2000);
@@ -334,6 +358,7 @@ public class WarehousesPage {
             return false;
     }
 
+    // Verify max capacity is not updated and stays the initial max capacity
     public boolean maxCapacityIsNotUpdated() {
         try {
             Thread.sleep(2000);
@@ -353,6 +378,7 @@ public class WarehousesPage {
             return false;
     }
 
+    // Click "Delete" option in dropdown menu
     public void selectDeleteDropdownOption() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
         WebElement deleteMenuItem = wait
@@ -360,6 +386,7 @@ public class WarehousesPage {
         deleteMenuItem.click();
     }
 
+    // Checks that card is deleted by verifying no cards it contains the name
     public boolean cardIsDeleted() {
         return this.doesNotContainWarehouseWithName(deletedCardWarehouseName);
     }

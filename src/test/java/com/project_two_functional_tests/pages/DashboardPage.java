@@ -30,6 +30,7 @@ public class DashboardPage {
         PageFactory.initElements(driver, this);
     }
 
+    // Verify if the current page URL matches the expected URL
     public boolean onPage() {
         try {
             Thread.sleep(1000);
@@ -39,6 +40,7 @@ public class DashboardPage {
         return driver.getCurrentUrl().equals(url);
     }
 
+    // Navigate to the specified URL
     public void get() {
         try {
             Thread.sleep(1000);
@@ -48,6 +50,7 @@ public class DashboardPage {
         this.driver.get(url);
     }
 
+    // Check if the dashboard section is loaded
     public boolean dashboardSectionLoaded() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ant-card")));
@@ -58,6 +61,7 @@ public class DashboardPage {
         }
     }
 
+    // Verify if specified card is displayed by its title and value
     public boolean iShouldSeeCard(String title, String value) {
         for (WebElement card : cards) {
             String cardTitle = card.findElement(By.className("ant-card-head-title")).getText();

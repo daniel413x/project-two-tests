@@ -55,10 +55,11 @@ public class InventoryPage {
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Set up explicit wait
         PageFactory.initElements(driver, this);
     }
 
+    // Verify if the current page URL matches the expected URL
     public boolean onPage() {
         try {
             wait.until(ExpectedConditions.urlToBe(url));
@@ -66,17 +67,20 @@ public class InventoryPage {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             return false;
-        } 
+        }
     }
 
+    // Navigate to the specified URL
     public void get() {
         this.driver.get(url);
     }
 
+    // Retrieve all inventory item rows from the page
     public List<WebElement> getRows() {
         return this.inventoryItemRows;
     }
 
+    // Check if the inventory section is loaded
     public boolean inventorySectionLoaded() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("th")));
@@ -87,6 +91,7 @@ public class InventoryPage {
         }
     }
 
+    // Verify if all inventory is displayed by checking related header cells
     public boolean allInventoryIsDisplayed() {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -94,6 +99,8 @@ public class InventoryPage {
         return cellTitles.containsAll(Arrays.asList("Product Type", "Warehouse"));
     }
 
+    // Check if the inventory for a single product category is displayed
+    // by checking related header cells exist/do not exist
     public boolean inventoryForSingleProductCategoryIsDisplayed() {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -101,6 +108,8 @@ public class InventoryPage {
         return cellTitles.contains("Warehouse") && !cellTitles.contains("Product Type");
     }
 
+    // Check if the inventory for a single warehouse is displayed by
+    // checking related header cells exist/do not exist
     public boolean inventoryForSingleWarehouseIsDisplayed() {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -108,11 +117,13 @@ public class InventoryPage {
         return cellTitles.contains("Product Type") && !cellTitles.contains("Warehouse");
     }
 
+    // Click the button to create new inventory
     public void clickCreateInventoryButton() {
         addInventoryButton.click();
         modal.isDisplayed();
     }
 
+    // Fill out form inputs in the modal
     public void enterFormInputs(String brand, String productName, String description, String productType,
             String warehouse, String price, String size, String quantity) {
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
@@ -139,11 +150,13 @@ public class InventoryPage {
         quantityField.sendKeys(quantity);
     }
 
+    // Click the submit button on the modal
     public void clickOnModalSubmitButton() {
         WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
         button.click();
     }
 
+    // Verify if an inventory item with specific values is displayed
     public boolean inventoryItemDisplayed(String brand, String productName, String description, String productType,
             String warehouse, String price, String size, String quantity) {
         try {
@@ -153,6 +166,7 @@ public class InventoryPage {
             List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
             List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
 
+            // Iterates through inventory rows to find a matching row
             for (WebElement row : inventoryItemRows) {
 
                 List<WebElement> rowCells = row.findElements(By.tagName("td"));
@@ -203,6 +217,7 @@ public class InventoryPage {
         }
     }
 
+    // Verify if an inventory item with specific values is not displayed
     public boolean inventoryItemNotDisplayed() {
         try {
             wait.until(ExpectedConditions.visibilityOf(headerRow));
@@ -211,6 +226,7 @@ public class InventoryPage {
             List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
             List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
 
+            // Iterates through inventory rows to check none match
             for (WebElement row : inventoryItemRows) {
 
                 List<WebElement> rowCells = row.findElements(By.tagName("td"));
@@ -261,6 +277,7 @@ public class InventoryPage {
         }
     }
 
+    // Click on "Edit" or "Delete" action link in inventory row
     public void selectLinkOnRow(int index, String linkText) {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -275,14 +292,14 @@ public class InventoryPage {
                 : null;
         initialProductType = cellTitles.indexOf("Product Type") != -1
                 ? rowCells.get(cellTitles.indexOf("Product Type")).getText()
-                : driver.findElement(By.id("breadcrumb-product-type")) != null 
-                ? driver.findElement(By.id("breadcrumb-product-type")).getText() 
-                : null;
+                : driver.findElement(By.id("breadcrumb-product-type")) != null
+                        ? driver.findElement(By.id("breadcrumb-product-type")).getText()
+                        : null;
         initialWarehouse = cellTitles.indexOf("Warehouse") != -1
                 ? rowCells.get(cellTitles.indexOf("Warehouse")).getText()
-                : driver.findElement(By.id("breadcrumb-warehouse-name")) != null 
-                ? driver.findElement(By.id("breadcrumb-warehouse-name")).getText() 
-                : null;
+                : driver.findElement(By.id("breadcrumb-warehouse-name")) != null
+                        ? driver.findElement(By.id("breadcrumb-warehouse-name")).getText()
+                        : null;
         initialPrice = cellTitles.indexOf("Price") != -1 ? rowCells.get(cellTitles.indexOf("Price")).getText() : null;
         initialSize = cellTitles.indexOf("Size") != -1 ? rowCells.get(cellTitles.indexOf("Size")).getText() : null;
         initialQuantity = cellTitles.indexOf("Quantity") != -1 ? rowCells.get(cellTitles.indexOf("Quantity")).getText()
@@ -300,16 +317,19 @@ public class InventoryPage {
         }
     }
 
+    // Click button to confirm delete in popconfirm modal
     public void pressConfirmDeleteButton(int index) {
         WebElement button = wait
                 .until(ExpectedConditions.elementToBeClickable(By.id("confirm-delete-inventory-" + index)));
         button.click();
     }
 
+    // Check if any rows contain matching string (returns false if found)
     public boolean doesNotContainInventoryMatchingString(String name) {
         return this.driver.findElement(By.tagName("main")).getText().contains(name);
     }
 
+    // Click "Save" or "Cancel" button in form modal
     public void clickButtonInModal(String buttonText) {
         switch (buttonText) {
             case "Save":
@@ -327,6 +347,7 @@ public class InventoryPage {
         }
     }
 
+    // Click "Search" or "Reset" button in search modal
     public void clickButtonInSearchModal(String buttonText) {
         switch (buttonText) {
             case "Search":
@@ -344,6 +365,7 @@ public class InventoryPage {
         }
     }
 
+    // Click sort or search icon in specified column header cell
     public void selectIconOnColumn(String columnName, String iconType) {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         WebElement columnCell = null;
@@ -372,11 +394,14 @@ public class InventoryPage {
         }
     }
 
+    // Check whether rows are sorted correctly alphabetically in ascending
+    // order
     public boolean columnRowsAreInAlphaAscOrder(String columnName) {
         if (inventoryItemRows.size() == 1) {
             return true;
         }
 
+        // Find the index of the column for specified column name
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
         int columnIndex = -1;
@@ -394,6 +419,8 @@ public class InventoryPage {
             columnValues.add(cells.get(columnIndex).getText());
         }
 
+        // Loop through the list of cell values to check if they are in ascending
+        // alphabetical order
         for (int i = 1; i < columnValues.size(); i++) {
             if (columnValues.get(i).compareTo(columnValues.get(i - 1)) < 0) {
                 return false;
@@ -403,11 +430,14 @@ public class InventoryPage {
         return true;
     }
 
+    // Check whether rows are sorted correctly alphabetically in
+    // descending order
     public boolean columnRowsAreInAlphaDescOrder(String columnName) {
         if (inventoryItemRows.size() == 1) {
             return true;
         }
 
+        // Find the index of the column for specified column name
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
         int columnIndex = -1;
@@ -425,6 +455,8 @@ public class InventoryPage {
             columnValues.add(cells.get(columnIndex).getText());
         }
 
+        // Loop through the list of cell values to check if they are in descending
+        // alphabetical order
         for (int i = 1; i < columnValues.size(); i++) {
             if (columnValues.get(i).compareTo(columnValues.get(i - 1)) > 0) {
                 return false;
@@ -434,11 +466,14 @@ public class InventoryPage {
         return true;
     }
 
+    // Check whether rows are sorted correctly numerically in
+    // ascending order
     public boolean columnRowsAreInNumericAscOrder(String columnName) {
         if (inventoryItemRows.size() == 1) {
             return true;
         }
 
+        // Find the index of the column for specified column name
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
         int columnIndex = -1;
@@ -455,12 +490,14 @@ public class InventoryPage {
             List<WebElement> cells = row.findElements(By.tagName("td"));
             String text = cells.get(columnIndex).getText();
             try {
-                columnValues.add(Double.parseDouble(text));
+                columnValues.add(Double.parseDouble(text)); // convert to double
             } catch (NumberFormatException e) {
                 this.columnRowsAreInAlphaAscOrder(columnName);
             }
         }
 
+        // Loop through the list of cell values to check if they are in ascending
+        // numeric order
         for (int i = 1; i < columnValues.size(); i++) {
             if (columnValues.get(i) < columnValues.get(i - 1)) {
                 return false;
@@ -470,11 +507,13 @@ public class InventoryPage {
         return true;
     }
 
+    // Check whether rows are sorted correctly numerically in descending order
     public boolean columnRowsAreInNumericDescOrder(String columnName) {
         if (inventoryItemRows.size() == 1) {
             return true;
         }
 
+        // Find the index of the column for specified column name
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
         int columnIndex = -1;
@@ -497,6 +536,8 @@ public class InventoryPage {
             }
         }
 
+        // Loop through the list of cell values to check if they are in descending
+        // numeric order
         for (int i = 1; i < columnValues.size(); i++) {
             if (columnValues.get(i) > columnValues.get(i - 1)) {
                 return false;
@@ -506,16 +547,21 @@ public class InventoryPage {
         return true;
     }
 
+    // Check if the search modal is displayed
     public boolean searchModalIsDisplayed() {
         return searchModal.isDisplayed();
     }
 
+    // Enter the specified input into the search field in the search modal
     public void enterInputInSearchField(String input) {
         WebElement searchField = searchModal.findElement(By.tagName("input"));
         searchField.sendKeys(input);
     }
 
+    // Check if the rows in the specified column contain the input value (indicating
+    // they are filtered)
     public boolean columnRowsAreFiltered(String columnName, String value) {
+        // Find the index of the column for specified column name
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
         int columnIndex = -1;
@@ -533,6 +579,7 @@ public class InventoryPage {
             columnValues.add(cells.get(columnIndex).getText());
         }
 
+        // Check if all values in the column contain specified value
         for (int i = 1; i < columnValues.size(); i++) {
             if (!columnValues.get(i).contains(value)) {
                 return false;
@@ -542,10 +589,14 @@ public class InventoryPage {
         return true;
     }
 
+    // Checks if the number of rows is equal to or greater than filter row count
+    // (indicating filter is no longer applied)
     public boolean columnRowsAreNotFiltered() {
         return inventoryItemRows.size() >= filteredRowCount;
     }
 
+    // Searches a column for a specific value by opening the search modal, entering
+    // the value, and clicking "Search"
     public void searchColumnForValue(String columnName, String value) {
         this.selectIconOnColumn(columnName, "search");
         if (this.searchModalIsDisplayed()) {
@@ -556,6 +607,8 @@ public class InventoryPage {
         }
     }
 
+    // Checks if the form fields contain the current inventory item information
+    // based on the initial values
     public boolean formFieldsContainCurrentInventoryItemInformation() {
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
@@ -568,6 +621,7 @@ public class InventoryPage {
         WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
         WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
 
+        // Compare the current values in the fields with the initial values
         return (brandField.getAttribute("value").equals(initialBrand) &&
                 nameField.getAttribute("value").equals(initialProductName) &&
                 descriptionField.getAttribute("value").equals(initialDescription) &&
@@ -578,11 +632,14 @@ public class InventoryPage {
                 quantityField.getAttribute("value").equals(initialQuantity));
     }
 
+    // Edits the input in the form fields with the specified values, replacing the
+    // existing input
     public void editFormInput(String brand, String productName, String description, String productType,
             String warehouse, String price, String size,
             String quantity) {
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
 
+        // Must loop through word and backspace it as clear method doesn't work here
         for (int i = 0; i < initialBrand.length(); i++) {
             brandField.sendKeys(Keys.BACK_SPACE);
         }
@@ -652,6 +709,8 @@ public class InventoryPage {
         quantityField.sendKeys(quantity);
     }
 
+    // Checks if the inventory item was not updated by comparing the current and
+    // initial values
     public boolean inventoryItemNotUpdated() {
         try {
             wait.until(ExpectedConditions.visibilityOf(headerRow));
@@ -709,5 +768,4 @@ public class InventoryPage {
             return false;
         }
     }
-
 }
