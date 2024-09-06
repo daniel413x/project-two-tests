@@ -88,7 +88,7 @@ public class WarehouseSteps {
     }
 
     @Then("the created warehouse should appear in the list of warehouses")
-    public void theCreatedProductCategoryShouldAppearInTheListOfWarehouses() {
+    public void theCreatedWarehouseShouldAppearInTheListOfWarehouses() {
         assertTrue(this.warehousesPage.containsWarehouseWithName(testWarehouseName));
     }
 
