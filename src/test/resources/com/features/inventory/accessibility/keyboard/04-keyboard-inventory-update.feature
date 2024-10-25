@@ -6,7 +6,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should tab and select the "Save" button
     And see the inventory item row updated
 
@@ -15,7 +15,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields
     Then I should tab and select the "Save" button
     And see the inventory item row updated
 
@@ -29,7 +29,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I should tab and select the "Save" button
     And see the inventory item row updated
 
@@ -43,7 +43,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should tab and select the "Cancel" button
     And see the inventory item row unchanged
 
@@ -52,7 +52,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I should tab and select the "Cancel" button
     And see the inventory item row unchanged
 
@@ -66,7 +66,7 @@ Feature: Update inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "Edit" link on a row
     Then I should see a form with pre-filled fields of current inventory item information
-    And edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
+    And tab and edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I should tab and select the "Cancel" button
     And see the inventory item row unchanged
 

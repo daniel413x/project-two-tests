@@ -6,7 +6,7 @@ Feature: Search inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should enter "<value>" in the search field
+    Then I should tab and enter "<value>" in the search field
     And tab and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 
@@ -36,7 +36,7 @@ Feature: Search inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should enter "<value>" in the search field
+    Then I should tab and enter "<value>" in the search field
     And tab and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 
@@ -66,7 +66,7 @@ Feature: Search inventory items via keyboard
     When the inventory has loaded
     And I tab and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should enter "<value>" in the search field
+    Then I should tab and enter "<value>" in the search field
     And tab and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 

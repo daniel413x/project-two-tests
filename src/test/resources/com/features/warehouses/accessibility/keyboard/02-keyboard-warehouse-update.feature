@@ -6,7 +6,7 @@ Feature: Update warehouse via keyboard
     When the warehouses load
     And I tab and select the "edit" icon on a warehouse card
     Then I should see a form with pre-filled fields of current warehouse information
-    And edit the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields
+    And tab and edit the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields
 
   Scenario: Save warehouse update via keyboard
     Then I should tab and select the "Save" button
