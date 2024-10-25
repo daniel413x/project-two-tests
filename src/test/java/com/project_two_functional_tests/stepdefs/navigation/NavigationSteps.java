@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps.navigationSteps;
+package com.project_two_functional_tests.stepdefs.navigation;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +10,7 @@ import com.project_two_functional_tests.utils.ResetDatabase;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -33,14 +34,14 @@ public class NavigationSteps {
         ResetDatabase.run();
     }
 
-    @Before("@navigation")
+    @Before("@navigation or @keyboard-navigation or @keyboard-skip-navigation")
     public void before() {
         driver = new HeadlessChromeDriver().getDriver();
         this.navigationTestsPage = new NavigationTestsPage(driver);
         driver.manage().window().maximize();
     }
 
-    @After("@navigation")
+    @After("@navigation or @keyboard-navigation or @keyboard-skip-navigation")
     public void afterTest() {
         if (driver != null) {
             driver.quit();
@@ -61,6 +62,8 @@ public class NavigationSteps {
             url = "http://localhost:5173/inventory?category=1";
         } else if (arg.startsWith(INVENTORY_CA1_PAGE)) {
             url = "http://localhost:5173/inventory?warehouse=1";
+        } else if (arg.startsWith(INVENTORY_PAGE)) {
+            url = "http://localhost:5173/inventory?warehouse=all";
         } else {
             throw new IllegalArgumentException("Invalid page type");
         }
@@ -97,5 +100,30 @@ public class NavigationSteps {
     @Then("I should be navigated to {string}")
     public void iShouldBeNavigatedTo(String expectedPage) {
         assertTrue(navigationTestsPage.isOnPage(expectedPage));
+    }
+
+
+    @When("I tab the skip navigation link into focus")
+    public void iTabSkipNavigationLinkIntoFocus() {
+        navigationTestsPage.focusOnSkipNavigationLink();
+    }
+
+    @And("the skip navigation link is displayed")
+    public void skipNavigationLinkDisplayed() {
+        assertTrue(navigationTestsPage.isSkipNavigationLinkDisplayed());
+    }
+
+    @Then("I click the skip navigation link")
+    public void iClickSkipNavigationLink() {
+        navigationTestsPage.clickOnSkipNavigationLink();
+    }
+
+    @Then("I should be taken to the main content of the page")
+    public void iShouldBeTakenToMainContent() {
+        if (currentPage.equals(INVENTORY_PAGE)) {
+            assertTrue(navigationTestsPage.isOnPage("inventory?warehouse=all#main-content"));
+        } else {
+            assertTrue(navigationTestsPage.isOnPage(currentPage + "#main-content"));
+        }
     }
 }
