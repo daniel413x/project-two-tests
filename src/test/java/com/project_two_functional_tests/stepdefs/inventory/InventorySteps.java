@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps.inventorySteps;
+package com.project_two_functional_tests.stepdefs.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
@@ -34,14 +34,14 @@ public class InventorySteps {
         ResetDatabase.run();
     }
 
-    @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
+    @Before("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete or @keyboard-inventory-creation or @keyboard-inventory-sort or @keyboard-inventory-search or @keyboard-inventory-update or @keyboard-inventory-delete")
     public void before() {
         driver = new HeadlessChromeDriver().getDriver();
         this.inventoryPage = new InventoryPage(driver);
         driver.manage().window().maximize();
     }
 
-    @After("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete")
+    @After("@inventory-list or @inventory-creation or @inventory-sort or @inventory-search or @inventory-update or @inventory-delete or @keyboard-inventory-creation or @keyboard-inventory-sort or @keyboard-inventory-search or @keyboard-inventory-update or @keyboard-inventory-delete")
     public void after() {
         if (this.driver != null) {
             this.driver.quit();

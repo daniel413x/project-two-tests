@@ -12,6 +12,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("com/features/products")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_two_functional_tests.steps.productSteps")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_two_functional_tests.stepdefs.products")
 public class ProductsPageRunner {
 }

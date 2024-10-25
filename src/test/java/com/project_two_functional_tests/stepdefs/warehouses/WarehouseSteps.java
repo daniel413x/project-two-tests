@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps.warehouseSteps;
+package com.project_two_functional_tests.stepdefs.warehouses;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
@@ -31,14 +31,14 @@ public class WarehouseSteps {
         ResetDatabase.run();
     }
 
-    @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
+    @Before("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete or @keyboard-warehouse-creation or @keyboard-warehouse-update or @keyboard-warehouse-delete")
     public void before() {
         driver = new HeadlessChromeDriver().getDriver();
         this.warehousesPage = new WarehousesPage(driver);
         driver.manage().window().maximize();
     }
 
-    @After("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete")
+    @After("@warehouses or @warehouse-creation or @warehouse-update or @warehouse-delete or @keyboard-warehouse-creation or @keyboard-warehouse-update or @keyboard-warehouse-delete")
     public void after() {
         if (this.driver != null) {
             this.driver.quit();

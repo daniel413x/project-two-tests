@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps;
+package com.project_two_functional_tests.stepdefs;
 
 import com.project_two_functional_tests.utils.ResetDatabase;
 

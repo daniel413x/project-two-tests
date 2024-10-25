@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps.dashboardSteps;
+package com.project_two_functional_tests.stepdefs.dashboard;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;

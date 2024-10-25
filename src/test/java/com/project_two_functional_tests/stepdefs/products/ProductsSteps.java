@@ -1,4 +1,4 @@
-package com.project_two_functional_tests.steps.productSteps;
+package com.project_two_functional_tests.stepdefs.products;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
@@ -27,14 +27,14 @@ public class ProductsSteps {
         ResetDatabase.run();
     }
 
-    @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
+    @Before("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete or @keyboard-product-categories-creation or @keyboard-product-categories-update or @keyboard-product-categories-delete")
     public void before() {
         driver = new HeadlessChromeDriver().getDriver();
         this.productsPage = new ProductsPage(driver);
         driver.manage().window().maximize();
     }
 
-    @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete")
+    @After("@product-categories or @product-categories-creation or @product-categories-update or @product-categories-delete or @keyboard-product-categories-creation or @keyboard-product-categories-update or @keyboard-product-categories-delete")
     public void after() {
         if (this.driver != null) {
             this.driver.quit();
