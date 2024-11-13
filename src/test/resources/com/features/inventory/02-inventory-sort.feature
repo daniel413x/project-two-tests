@@ -4,7 +4,7 @@ Feature: Sort inventory items
   Scenario Outline: Sort inventory items on all inventory page
     Given I am on the "<inventoryPage>" inventory page
     When the inventory has loaded
-    And I select the "sort" icon on the "<column>" column
+    And I click the "sort" icon on the "<column>" column
     Then "<column>" rows should be in "<order>" order
 
     Examples:

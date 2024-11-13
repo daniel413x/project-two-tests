@@ -4,6 +4,5 @@ Feature: Delete warehouse
   Scenario: Delete warehouse
     Given I am on the warehouses page
     When the warehouses load
-    And I select the "..." icon on a warehouse card
-    And select Delete from the dropdown
+    And I click the "delete" icon on a warehouse card
     Then I should not see the warehouse card displayed

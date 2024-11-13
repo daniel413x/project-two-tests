@@ -4,6 +4,5 @@ Feature: Delete product category
   Scenario: Delete product category
     Given I am on the product categories page
     When the product categories load
-    And I select the "..." icon on a category card 
-    And select Delete from the dropdown
+    And I click the "delete" icon on a category card 
     Then I should not see the category card displayed
