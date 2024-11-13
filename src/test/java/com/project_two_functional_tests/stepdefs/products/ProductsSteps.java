@@ -67,19 +67,26 @@ public class ProductsSteps {
      * Scenario: A new product category is created
      */
 
-    @And("I have opened the create product category form modal")
-    public void iHaveOpenedTheCreateProductCategoryFormModal() {
-        this.productsPage.clickOnCreateProductCategoryButton();
+
+    @Then("I click the {string} button")
+    public void iClickTheButton(String buttonText) {
+        this.productsPage.clickButton(buttonText);
     }
 
-    @When("I enter valid input for a new product category")
+    @Then("I focus and select the {string} button")
+    public void iFocusAndSelectTheButton(String buttonText) {
+        this.productsPage.focusAndSelectButton(buttonText);
+    }
+
+    @Then("I enter valid input for a new product category into the modal form")
     public void iEnterValidInput() {
         this.productsPage.enterInput(testCategory);
     }
 
-    @And("I press the product category form submit button")
-    public void iPressTheSubmitButton() {
-        this.productsPage.clickOnModalSubmitButton();
+
+    @Then("I focus and enter valid input for a new product category into the modal form")
+    public void iFocusAndEnterInput() {
+        this.productsPage.focusAndEnterInput(testCategory);
     }
 
     @And("the created product category should appear in the list of categories")
@@ -92,9 +99,14 @@ public class ProductsSteps {
      * Features: Update product category, Delete product category
      */
 
-    @And("I select the {string} icon on a category card")
-    public void iSelectTheIconOnACard(String iconType) {
-        this.productsPage.selectIconOnCard(iconType);
+    @And("I click the {string} icon on a category card")
+    public void iClickTheIconOnACard(String iconType) {
+        this.productsPage.clickIconOnCard(iconType);
+    }
+
+    @And("I focus and select the {string} icon on a category card")
+    public void iFocusAndSelectTheIconOnACard(String iconType) {
+        this.productsPage.focusAndSelectIconOnCard(iconType);
     }
 
     @Then("I should see a category name field pre-filled with the current name")
@@ -102,9 +114,14 @@ public class ProductsSteps {
         assertTrue(this.productsPage.updateFieldContainsProductCategoryName());
     }
 
-    @And("edit the category name field to a new value")
-    public void editTheCategoryNameToNewValue() {
-        this.productsPage.editUpdateField(testCategory);
+    @And("update the category name field to a new value")
+    public void updateTheCategoryNameToNewValue() {
+        this.productsPage.updateNameField(testCategory);
+    }
+
+    @And("focus and update the category name field to a new value")
+    public void focusAndUpdateTheCategoryNameToNewValue() {
+        this.productsPage.focusAndUpdateNameField(testCategory);
     }
 
     /**
@@ -112,12 +129,7 @@ public class ProductsSteps {
      * Scenario: Save product category update 
      */
 
-    @Then("I should click the {string} button")
-    public void iShouldClickTheButton(String buttonText) {
-        this.productsPage.clickButtonInModal(buttonText);
-    }
-
-    @And("see the category name updated to the new value")
+    @And("should see the category name updated to the new value")
     public void seeCategoryNameUpdated() {
         assertTrue(this.productsPage.savedCardIsUpdated(testCategory));
     }
@@ -127,7 +139,7 @@ public class ProductsSteps {
      * Scenario: Cancel product category update 
      */
 
-    @And("see the category name unchanged")
+    @And("should see the category name unchanged")
     public void seeTheCategoryNameUnchanged() {
         assertTrue(this.productsPage.canceledCardIsNotUpdated());
     }
@@ -137,15 +149,9 @@ public class ProductsSteps {
      * Scenario: Delete product category 
      */
 
-    @And("select Delete from the dropdown")
-    public void selectDeleteFromDropdown() {
-        this.productsPage.selectDeleteDropdownOption();
-    }
-
     @Then("I should not see the category card displayed")
     public void iShouldNotSeeCategoryCardDisplayed() {
         assertTrue(this.productsPage.cardIsDeleted());
-
     }
 
 }

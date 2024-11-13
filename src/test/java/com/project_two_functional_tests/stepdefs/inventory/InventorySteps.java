@@ -87,10 +87,15 @@ public class InventorySteps {
      * 03-inventory-creation.feature
      * Scenario Outline: Create a new item in inventory for the all inventory, warehouse inventory, and product category inventory pages
      */
-     
-    @And("I have opened the create inventory modal")
-    public void iHaveOpenedTheCreateInventoryModal() {
-        inventoryPage.clickCreateInventoryButton();
+
+    @Then("I click the {string} button")
+    public void iClickTheButton(String buttonText) {
+        this.inventoryPage.clickButton(buttonText);
+    }
+
+    @Then("I focus and select the {string} button")
+    public void iFocusAndSelectTheButton(String buttonText) {
+        this.inventoryPage.focusAndSelectButton(buttonText);
     }
 
     @When("I enter valid inputs for all form fields")
@@ -99,13 +104,20 @@ public class InventorySteps {
                 testPrice, testSize, testQuantity);
     }
 
-    @And("I press the submit button")
-    public void iPressTheSubmitButton() {
-        this.inventoryPage.clickOnModalSubmitButton();
+    @When("I focus and enter valid inputs for all form fields")
+    public void iFocusAndEnterValidInputsForAllFormFields() {
+        this.inventoryPage.focusAndEnterFormInputs(testBrand, testProductName, testDescription, testProductType, testWarehouse,
+                testPrice, testSize, testQuantity);
     }
 
     @Then("I should see the new inventory item row displayed")
     public void iShouldSeeNewInventoryItemRowDisplayed() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription,
                 testProductType, testWarehouse, testPrice, testSize, testQuantity));
     }
@@ -115,18 +127,34 @@ public class InventorySteps {
      * Scenario Outline: Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages
      */
      
-    @And("I select the {string} link on a row")
-    public void iSelectLinkOnARow(String linkText) {
-        this.inventoryPage.selectLinkOnRow(0, linkText);
+    @And("I click the {string} link on a row")
+    public void iClickLinkOnARow(String linkText) {
+        this.inventoryPage.clickLinkOnRow(0, linkText);
     }
 
-    @Then("I select the Delete button in the popover")
-    public void iSelectDeleteButtonInPopover() {
-        inventoryPage.pressConfirmDeleteButton(0);
+    @And("I focus and select the {string} link on a row")
+    public void iFocusAndSelectLinkOnARow(String linkText) {
+        this.inventoryPage.focusAndSelectLinkOnRow(0, linkText);
+    }
+
+    @Then("I click the Delete button in the popover")
+    public void iClickDeleteButtonInPopover() {
+        inventoryPage.clickConfirmDeleteButton(0);
+    }
+
+    @Then("I focus and select the Delete button in the popover")
+    public void iFocusAndSelectDeleteButtonInPopover() {
+        inventoryPage.focusAndSelectConfirmDeleteButton(0);
     }
 
     @Then("I should not see the inventory item row displayed")
     public void iShouldNotSeeInventoryItemDisplayed() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         assertTrue(inventoryPage.inventoryItemNotDisplayed());
     }
 
@@ -143,30 +171,43 @@ public class InventorySteps {
         assertTrue(this.inventoryPage.formFieldsContainCurrentInventoryItemInformation());
     }
 
-    @And("edit the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields")
-    public void editBrandProductNameDescriptionProductTypeWarehousePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, testWarehouse,
+    @And("update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields")
+    public void updateBrandProductNameDescriptionProductTypeWarehousePriceSizeAndQuantity() {
+        this.inventoryPage.updateFormInput(testBrand, testProductName, testDescription, testProductType, testWarehouse,
                 testPrice, testSize, testQuantity);
     }
 
-    @And("edit the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields")
-    public void editBrandProductNameDescriptionWarehousePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, null, testWarehouse, testPrice,
+    @And("update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields")
+    public void updateBrandProductNameDescriptionWarehousePriceSizeAndQuantity() {
+        this.inventoryPage.updateFormInput(testBrand, testProductName, testDescription, null, testWarehouse, testPrice,
                 testSize, testQuantity);
     }
 
-    @And("edit the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields")
-    public void editBrandProductNameDescriptionProductTypePriceSizeAndQuantity() {
-        this.inventoryPage.editFormInput(testBrand, testProductName, testDescription, testProductType, null, testPrice,
+    @And("update the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields")
+    public void updateBrandProductNameDescriptionProductTypePriceSizeAndQuantity() {
+        this.inventoryPage.updateFormInput(testBrand, testProductName, testDescription, testProductType, null, testPrice,
                 testSize, testQuantity);
     }
 
-    @Then("I should click the {string} button")
-    public void iShouldClickTheButton(String buttonText) {
-        this.inventoryPage.clickButtonInModal(buttonText);
+    @And("focus and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields")
+    public void focusAndUpdateBrandProductNameDescriptionProductTypeWarehousePriceSizeAndQuantity() {
+        this.inventoryPage.focusAndUpdateFormInput(testBrand, testProductName, testDescription, testProductType, testWarehouse,
+                testPrice, testSize, testQuantity);
     }
 
-    @And("see the inventory item row updated")
+    @And("focus and update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields")
+    public void focusAndUpdateBrandProductNameDescriptionWarehousePriceSizeAndQuantity() {
+        this.inventoryPage.focusAndUpdateFormInput(testBrand, testProductName, testDescription, null, testWarehouse, testPrice,
+                testSize, testQuantity);
+    }
+
+    @And("focus and update the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields")
+    public void focusAndUpdateBrandProductNameDescriptionProductTypePriceSizeAndQuantity() {
+        this.inventoryPage.focusAndUpdateFormInput(testBrand, testProductName, testDescription, testProductType, null, testPrice,
+                testSize, testQuantity);
+    }
+
+    @And("should see the inventory item row updated")
     public void seeInventoryItemUpdated() {
         assertTrue(this.inventoryPage.inventoryItemDisplayed(testBrand, testProductName, testDescription,
                 testProductType, testWarehouse, testPrice, testSize, testQuantity));
@@ -180,7 +221,7 @@ public class InventorySteps {
      * Cancel inventory item update on a product category page
      */
      
-    @And("see the inventory item row unchanged")
+    @And("should see the inventory item row unchanged")
     public void seeInventoryItemUnchanged() {
         assertTrue(this.inventoryPage.inventoryItemNotUpdated());
     }
@@ -200,28 +241,40 @@ public class InventorySteps {
         this.inventoryPage.searchColumnForValue(columnName, value);
     }
 
-    @And("I select the {string} icon on the {string} column")
-    public void iSelectIconOnColumn(String iconType, String columnName) {
-        this.inventoryPage.selectIconOnColumn(columnName, iconType);
+    @And("I click the {string} icon on the {string} column")
+    public void iClickIconOnColumn(String iconType, String columnName) {
+        this.inventoryPage.clickIconOnColumn(columnName, iconType);
+    }
+
+    @And("I focus and select the {string} icon on the {string} column")
+    public void iFocusAndSelectIconOnColumn(String iconType, String columnName) {
+        this.inventoryPage.focusAndSelectIconOnColumn(columnName, iconType);
     }
 
     @Then("I should see a search modal displayed")
     public void iShouldSeeSearchModalDisplayed() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertTrue(this.inventoryPage.searchModalIsDisplayed());
     }
 
-    @Then("I should enter {string} in the search field")
-    public void iShouldEnterValueInSearchField(String value) {
+    @Then("I should input {string} in the search field")
+    public void iShouldInputValueInSearchField(String value) {
         this.inventoryPage.enterInputInSearchField(value);
-    }
-
-    @And("click the {string} button")
-    public void clickButtonInSearchModalButton(String buttonText) {
-        this.inventoryPage.clickButtonInSearchModal(buttonText);
     }
 
     @Then("I should see rows displayed where the {string} column has a value that contains {string}")
     public void iShouldSeeRowsWhereColumnHasValueThatContains(String columnName, String value) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertTrue(this.inventoryPage.columnRowsAreFiltered(columnName, value));
     }
 
@@ -244,5 +297,4 @@ public class InventorySteps {
             }
         }
     }
-
 }

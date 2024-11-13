@@ -19,6 +19,7 @@ public class WarehouseSteps {
 
     private WebDriver driver;
     private WarehousesPage warehousesPage;
+    
     private String testWarehouseName = "DC1";
     private String testMaxCapacity = "1800";
     private String testStreetAddress = "4000 Connecticut Avenue NW";
@@ -71,20 +72,26 @@ public class WarehouseSteps {
      * Scenario: A new warehouse is created
      */
 
-    @And("I have opened the create warehouse form modal")
-    public void iHaveOpenedTheCreateWarehouseFormModal() {
-        this.warehousesPage.clickOnCreateWarehouseButton();
+    @Then("I click the {string} button")
+    public void iClickTheButton(String buttonText) {
+        this.warehousesPage.clickButton(buttonText);
     }
 
-    @When("I enter valid input for a new warehouse")
+    @Then("I focus and select the {string} button")
+    public void iFocusAndSelectTheButton(String buttonText) {
+        this.warehousesPage.focusAndSelectButton(buttonText);
+    }
+
+    @Then("I enter valid input for a new warehouse into the modal form")
     public void iEnterValidInput() {
         this.warehousesPage.enterFormInputs(testWarehouseName, testMaxCapacity, testStreetAddress, testCity, testState,
                 testZipCode);
     }
 
-    @And("I press the warehouse form submit button")
-    public void iPressTheSubmitButton() {
-        this.warehousesPage.clickOnModalSubmitButton();
+    @Then("I focus and enter valid input for a new warehouse into the modal form")
+    public void iFocusAndEnterInput() {
+        this.warehousesPage.focusAndEnterFormInputs(testWarehouseName, testMaxCapacity, testStreetAddress, testCity, testState,
+                testZipCode);
     }
 
     @Then("the created warehouse should appear in the list of warehouses")
@@ -97,9 +104,15 @@ public class WarehouseSteps {
      * Features: Update warehouse, Delete warehouse
      */
 
-    @And("I select the {string} icon on a warehouse card")
-    public void iSelectTheIconOnACard(String iconType) {
-        this.warehousesPage.selectIconOnCard(0, iconType);
+    @And("I click the {string} icon on a warehouse card")
+    public void iClickTheIconOnACard(String iconType) {
+        this.warehousesPage.clickIconOnCard(0, iconType);
+    }
+
+
+    @And("I focus and select the {string} icon on a warehouse card")
+    public void iFocusAndSelectTheIconOnACard(String iconType) {
+        this.warehousesPage.focusAndSelectIconOnCard(0, iconType);
     }
 
     /**
@@ -112,44 +125,55 @@ public class WarehouseSteps {
         assertTrue(this.warehousesPage.formFieldsContainCurrentWarehouseInformation());
     }
 
-    @And("edit the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields")
-    public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
-        this.warehousesPage.editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName,
+    @And("update the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields")
+    public void updateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
+        this.warehousesPage.updateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName,
                 testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
     }
 
-    @Then("I should click the {string} button")
-    public void iShouldClickTheButton(String buttonText) {
-        this.warehousesPage.clickButtonInModal(buttonText);
+    @And("focus and update the Warehouse Name, Max Capacity, Street Address, City, State, and Zip Code fields")
+    public void focusAndUpdateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
+        // this.warehousesPage.updateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName,
+        //         testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
     }
 
-    @And("see the warehouse name, city, and state updated")
+    @And("should see the warehouse name, city, and state updated")
     public void seeWarehouseNameCityAndStateUpdated() {
         assertTrue(this.warehousesPage.savedCardIsUpdated(testWarehouseName, testCity, testState));
     }
 
-    @And("see the warehouse name, city, and state unchanged")
+    @And("should see the warehouse name, city, and state unchanged")
     public void seeWarehouseNameCityAndStateUnchanged() {
         assertTrue(this.warehousesPage.canceledCardIsNotUpdated());
     }
 
-    @Then("I should select the updated warehouse card")
-    public void iShouldSelectUpdatedWarehouseCard() {
-        this.warehousesPage.selectWarehouseCard(testWarehouseName);
+    @Then("I click the updated warehouse card")
+    public void iClickUpdatedWarehouseCard() {
+        this.warehousesPage.clickWarehouseCard(testWarehouseName);
     }
 
-    @Then("I should select the unchanged warehouse card")
-    public void iShouldSelectUnchangedWarehouseCard() {
-        this.warehousesPage.selectWarehouseCard();
+    @Then("I focus and select the updated warehouse card")
+    public void iFocusAndSelectUpdatedWarehouseCard() {
+        // this.warehousesPage.selectWarehouseCard(testWarehouseName);
     }
 
-    @And("see the max capacity updated")
-    public void seeMaxCapacityUpdated() {
+    @Then("I click the unchanged warehouse card")
+    public void iClickUnchangedWarehouseCard() {
+        this.warehousesPage.clickWarehouseCard();
+    }
+
+    @Then("I focus and select the unchanged warehouse card")
+    public void iFocusAndSelectUnchangedWarehouseCard() {
+        // this.warehousesPage.selectWarehouseCard();
+    }
+
+    @And("should see the max capacity updated")
+    public void shouldSeeMaxCapacityUpdated() {
         assertTrue(this.warehousesPage.maxCapacityIsUpdated(testMaxCapacity));
     }
 
-    @And("see the max capacity unchanged")
-    public void seeMaxCapacityUnchanged() {
+    @And("should see the max capacity unchanged")
+    public void shouldSeeMaxCapacityUnchanged() {
         assertTrue(this.warehousesPage.maxCapacityIsNotUpdated());
     }
 
@@ -157,12 +181,7 @@ public class WarehouseSteps {
      * 04-warehouse-delete.feature
      * Scenarios: Delete warehouse
      */
-
-    @And("select Delete from the dropdown")
-    public void selectDeleteFromDropdown() {
-        this.warehousesPage.selectDeleteDropdownOption();
-    }
-
+    
     @Then("I should not see the warehouse card displayed")
     public void iShouldNotSeeWarehouseCardDisplayed() {
         assertTrue(this.warehousesPage.cardIsDeleted());

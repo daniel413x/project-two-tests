@@ -78,13 +78,19 @@ public class NavigationSteps {
     @When("I click on {string} in the side navigation")
     public void iClickOnANavLinkInTheSideNavigation(String targetPage) {
         String id = targetPage.toLowerCase();
-        if (currentPage.equals(PRODUCTS_PAGE) && targetPage.equals(INVENTORY_PAGE)) {
-            id = "inventory-products";
-        }
-        if (currentPage.equals(WAREHOUSES_PAGE) && targetPage.equals(INVENTORY_PAGE)) {
-            id = "inventory-warehouses";
+        if (targetPage.equals(INVENTORY_PAGE)) {
+            id = "all-inventory";
         }
         navigationTestsPage.clickOnNavLinkInSideNavigation(id);
+    }
+
+    @When("I focus and select {string} in the side navigation")
+    public void iFocusAndSelectANavLinkInTheSideNavigation(String targetPage) {
+        String id = targetPage.toLowerCase();
+        if (targetPage.equals(INVENTORY_PAGE)) {
+            id = "all-inventory";
+        }
+        navigationTestsPage.focusAndSelectNavLinkInSideNavigation(id);
     }
 
     /**
@@ -93,8 +99,13 @@ public class NavigationSteps {
      */
 
     @When("I click on {string} in the breadcrumbs")
-    public void iClickOnInTheBreadcrumbs(String page) {
-        navigationTestsPage.clickOnBreadcrumb(page);
+    public void iClickANavLinkInTheBreadcrumbs(String page) {
+        navigationTestsPage.clickOnBreadcrumb(page.toLowerCase());
+    }
+
+    @When("I focus and select {string} in the breadcrumbs")
+    public void iFocusAndSelectANavLinkInTheBreadcrumbs(String page) {
+        navigationTestsPage.focusAndSelectBreadcrumb(page.toLowerCase());
     }
 
     @Then("I should be navigated to {string}")
@@ -103,8 +114,8 @@ public class NavigationSteps {
     }
 
 
-    @When("I tab the skip navigation link into focus")
-    public void iTabSkipNavigationLinkIntoFocus() {
+    @When("I focus on the skip navigation link")
+    public void iFocusOnSkipNavigationLink() {
         navigationTestsPage.focusOnSkipNavigationLink();
     }
 
