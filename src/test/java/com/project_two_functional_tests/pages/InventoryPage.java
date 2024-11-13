@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -20,6 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class InventoryPage {
 
     private WebDriver driver;
+    private JavascriptExecutor js;
     private WebDriverWait wait;
 
     private static final String url = "http://localhost:5173/inventory?category=all";
@@ -41,9 +43,6 @@ public class InventoryPage {
     @FindBy(className = "ant-table-row")
     private List<WebElement> inventoryItemRows;
 
-    @FindBy(className = "ant-btn-primary")
-    private WebElement addInventoryButton;
-
     @FindBy(className = "ant-modal-content")
     private WebElement modal;
 
@@ -55,6 +54,7 @@ public class InventoryPage {
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
+        this.js = (JavascriptExecutor) driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Set up explicit wait
         PageFactory.initElements(driver, this);
     }
@@ -117,10 +117,15 @@ public class InventoryPage {
         return cellTitles.contains("Product Type") && !cellTitles.contains("Warehouse");
     }
 
-    // Click the button to create new inventory
-    public void clickCreateInventoryButton() {
-        addInventoryButton.click();
-        modal.isDisplayed();
+    public void clickButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[contains(text(), '" + buttonText + "')]]"));
+        button.click();
+    }
+
+    public void focusAndSelectButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[text()='" + buttonText + "']]"));
+        js.executeScript("arguments[0].focus();", button);
+        button.sendKeys(Keys.ENTER);    
     }
 
     // Fill out form inputs in the modal
@@ -150,11 +155,55 @@ public class InventoryPage {
         quantityField.sendKeys(quantity);
     }
 
-    // Click the submit button on the modal
-    public void clickOnModalSubmitButton() {
-        WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
-        button.click();
-    }
+        // Fill out form inputs in the modal via keyboard
+    public void focusAndEnterFormInputs(String brand, String productName, String description, String productType,
+            String warehouse, String price, String size, String quantity) {
+        WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
+        js.executeScript("arguments[0].focus();", brandField);
+        brandField.sendKeys(Keys.ENTER);    
+        brandField.sendKeys(brand);
+        
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
+        js.executeScript("arguments[0].focus();", nameField);
+        nameField.sendKeys(Keys.ENTER);    
+        nameField.sendKeys(productName);
+        
+        WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
+        js.executeScript("arguments[0].focus();", descriptionField);
+        descriptionField.sendKeys(Keys.ENTER);    
+        descriptionField.sendKeys(description);
+
+        WebElement productTypeField = modal.findElement(By.id("form_in_modal_categoryName"));
+        js.executeScript("arguments[0].focus();", productTypeField);
+        productTypeField.sendKeys(Keys.ENTER);    
+        if (productTypeField.isEnabled()) {
+            productTypeField.sendKeys(productType);
+            productTypeField.sendKeys(Keys.ENTER);
+        }
+
+        WebElement warehouseField = modal.findElement(By.id("form_in_modal_warehouseName"));
+        js.executeScript("arguments[0].focus();", warehouseField);
+        warehouseField.sendKeys(Keys.ENTER);    
+        if (warehouseField.isEnabled()) {
+            warehouseField.sendKeys(warehouse);
+            warehouseField.sendKeys(Keys.ENTER);
+        }
+
+        WebElement priceField = modal.findElement(By.id("form_in_modal_price"));
+        js.executeScript("arguments[0].focus();", priceField);
+        priceField.sendKeys(Keys.ENTER);    
+        priceField.sendKeys(price);
+
+        WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
+        js.executeScript("arguments[0].focus();", sizeField);
+        sizeField.sendKeys(Keys.ENTER);    
+        sizeField.sendKeys(size);
+
+        WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
+        js.executeScript("arguments[0].focus();", quantityField);
+        quantityField.sendKeys(Keys.ENTER);    
+        quantityField.sendKeys(quantity);
+}
 
     // Verify if an inventory item with specific values is displayed
     public boolean inventoryItemDisplayed(String brand, String productName, String description, String productType,
@@ -278,7 +327,7 @@ public class InventoryPage {
     }
 
     // Click on "Edit" or "Delete" action link in inventory row
-    public void selectLinkOnRow(int index, String linkText) {
+    public void clickLinkOnRow(int index, String linkText) {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
 
@@ -317,56 +366,70 @@ public class InventoryPage {
         }
     }
 
+    // Select "Edit" or "Delete" action link in inventory row via keyboard
+    public void focusAndSelectLinkOnRow(int index, String linkText) {
+        List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
+        List<String> cellTitles = headerCells.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        List<WebElement> rowCells = inventoryItemRows.get(index).findElements(By.tagName("td"));
+
+        initialBrand = cellTitles.indexOf("Brand") != -1 ? rowCells.get(cellTitles.indexOf("Brand")).getText() : null;
+        initialProductName = cellTitles.indexOf("Name") != -1 ? rowCells.get(cellTitles.indexOf("Name")).getText()
+                : null;
+        initialDescription = cellTitles.indexOf("Description") != -1
+                ? rowCells.get(cellTitles.indexOf("Description")).getText()
+                : null;
+        initialProductType = cellTitles.indexOf("Product Type") != -1
+                ? rowCells.get(cellTitles.indexOf("Product Type")).getText()
+                : driver.findElement(By.id("breadcrumb-product-type")) != null
+                        ? driver.findElement(By.id("breadcrumb-product-type")).getText()
+                        : null;
+        initialWarehouse = cellTitles.indexOf("Warehouse") != -1
+                ? rowCells.get(cellTitles.indexOf("Warehouse")).getText()
+                : driver.findElement(By.id("breadcrumb-warehouse-name")) != null
+                        ? driver.findElement(By.id("breadcrumb-warehouse-name")).getText()
+                        : null;
+        initialPrice = cellTitles.indexOf("Price") != -1 ? rowCells.get(cellTitles.indexOf("Price")).getText() : null;
+        initialSize = cellTitles.indexOf("Size") != -1 ? rowCells.get(cellTitles.indexOf("Size")).getText() : null;
+        initialQuantity = cellTitles.indexOf("Quantity") != -1 ? rowCells.get(cellTitles.indexOf("Quantity")).getText()
+                : null;
+
+        switch (linkText) {
+            case "Edit":
+                WebElement editLink = inventoryItemRows.get(index).findElement(By.className("ant-btn-link"));
+                js.executeScript("arguments[0].focus();", editLink);
+                editLink.sendKeys(Keys.ENTER);    
+                break;
+            case "Delete":
+                WebElement deleteLink = inventoryItemRows.get(index).findElement(By.id("delete-inventory-" + index));
+                js.executeScript("arguments[0].focus();", deleteLink);
+                deleteLink.sendKeys(Keys.ENTER);
+                break;
+        }
+    }
+
     // Click button to confirm delete in popconfirm modal
-    public void pressConfirmDeleteButton(int index) {
+    public void clickConfirmDeleteButton(int index) {
         WebElement button = wait
                 .until(ExpectedConditions.elementToBeClickable(By.id("confirm-delete-inventory-" + index)));
         button.click();
     }
 
+    // Select button to confirm delete in popconfirm modal via keyboard
+    public void focusAndSelectConfirmDeleteButton(int index) {
+        WebElement button = wait
+                .until(ExpectedConditions.elementToBeClickable(By.id("confirm-delete-inventory-" + index)));
+            js.executeScript("arguments[0].focus();", button);
+            button.sendKeys(Keys.ENTER);      }
+
     // Check if any rows contain matching string (returns false if found)
     public boolean doesNotContainInventoryMatchingString(String name) {
         return this.driver.findElement(By.tagName("main")).getText().contains(name);
     }
-
-    // Click "Save" or "Cancel" button in form modal
-    public void clickButtonInModal(String buttonText) {
-        switch (buttonText) {
-            case "Save":
-                modal.findElement(By.xpath("//button[@type='submit']")).click();
-                break;
-            case "Cancel":
-                modal.findElement(By.className("ant-btn-default")).click();
-                break;
-        }
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Click "Search" or "Reset" button in search modal
-    public void clickButtonInSearchModal(String buttonText) {
-        switch (buttonText) {
-            case "Search":
-                searchModal.findElement(By.className("ant-btn-primary")).click();
-                break;
-            case "Reset":
-                searchModal.findElement(By.className("ant-btn-default")).click();
-                break;
-        }
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     // Click sort or search icon in specified column header cell
-    public void selectIconOnColumn(String columnName, String iconType) {
+    public void clickIconOnColumn(String columnName, String iconType) {
         List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
         WebElement columnCell = null;
 
@@ -384,6 +447,37 @@ public class InventoryPage {
                 break;
             case "sort":
                 columnCell.click();
+                break;
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Select sort or search icon in specified column header cell via keyboard
+    public void focusAndSelectIconOnColumn(String columnName, String iconType) {
+        List<WebElement> headerCells = headerRow.findElements(By.tagName("th"));
+        WebElement columnCell = null;
+
+        for (WebElement cell : headerCells) {
+            if (cell.getText().equals(columnName)) {
+                columnCell = cell;
+                break;
+            }
+        }
+
+        switch (iconType) {
+            case "search":
+                WebElement searchIcon = columnCell.findElement(By.className("ant-table-filter-trigger"));
+                js.executeScript("arguments[0].focus();", searchIcon);
+                searchIcon.sendKeys(Keys.ENTER);
+                break;
+            case "sort":
+                js.executeScript("arguments[0].focus();", columnCell);
+                columnCell.sendKeys(Keys.ENTER);
                 break;
         }
 
@@ -558,6 +652,14 @@ public class InventoryPage {
         searchField.sendKeys(input);
     }
 
+    // Enter the specified input into the search field in the search modal via keyboard
+    public void focusAndEnterInputInSearchField(String input) {
+        WebElement searchField = searchModal.findElement(By.tagName("input"));
+        js.executeScript("arguments[0].focus();", searchField);
+        searchField.sendKeys(Keys.ENTER);
+        searchField.sendKeys(input);
+    }
+
     // Check if the rows in the specified column contain the input value (indicating
     // they are filtered)
     public boolean columnRowsAreFiltered(String columnName, String value) {
@@ -598,10 +700,10 @@ public class InventoryPage {
     // Searches a column for a specific value by opening the search modal, entering
     // the value, and clicking "Search"
     public void searchColumnForValue(String columnName, String value) {
-        this.selectIconOnColumn(columnName, "search");
+        this.clickIconOnColumn(columnName, "search");
         if (this.searchModalIsDisplayed()) {
             this.enterInputInSearchField(value);
-            this.clickButtonInSearchModal("Search");
+            this.clickButton("Search");
 
             this.filteredRowCount = inventoryItemRows.size();
         }
@@ -632,9 +734,9 @@ public class InventoryPage {
                 quantityField.getAttribute("value").equals(initialQuantity));
     }
 
-    // Edits the input in the form fields with the specified values, replacing the
+    // Updates the input in the form fields with the specified values, replacing the
     // existing input
-    public void editFormInput(String brand, String productName, String description, String productType,
+    public void updateFormInput(String brand, String productName, String description, String productType,
             String warehouse, String price, String size,
             String quantity) {
         WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
@@ -701,6 +803,101 @@ public class InventoryPage {
         sizeField.sendKeys(size);
 
         WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
+
+        for (int i = 0; i < initialQuantity.length(); i++) {
+            quantityField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        quantityField.sendKeys(quantity);
+    }
+
+        // Updates the input in the form fields with the specified values, replacing the
+    // existing input
+    public void focusAndUpdateFormInput(String brand, String productName, String description, String productType,
+            String warehouse, String price, String size,
+            String quantity) {
+        WebElement brandField = modal.findElement(By.id("form_in_modal_brand"));
+        js.executeScript("arguments[0].focus();", brandField);
+        brandField.sendKeys(Keys.ENTER);
+
+        // Must loop through word and backspace it as clear method doesn't work here
+        for (int i = 0; i < initialBrand.length(); i++) {
+            brandField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        brandField.sendKeys(brand);
+
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
+        js.executeScript("arguments[0].focus();", nameField);
+        nameField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < initialProductName.length(); i++) {
+            nameField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        nameField.sendKeys(productName);
+
+        WebElement descriptionField = modal.findElement(By.id("form_in_modal_description"));
+        js.executeScript("arguments[0].focus();", descriptionField);
+        descriptionField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < initialDescription.length(); i++) {
+            descriptionField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        descriptionField.sendKeys(description);
+
+        WebElement productTypeField = modal.findElement(By.id("form_in_modal_categoryName"));
+
+        if (productTypeField.isEnabled()) {
+            js.executeScript("arguments[0].focus();", productTypeField);
+            productTypeField.sendKeys(Keys.ENTER);
+
+            for (int i = 0; i < initialProductType.length(); i++) {
+                productTypeField.sendKeys(Keys.BACK_SPACE);
+            }
+
+            productTypeField.sendKeys(productType);
+            productTypeField.sendKeys(Keys.ENTER);
+        }
+
+        WebElement warehouseField = modal.findElement(By.id("form_in_modal_warehouseName"));
+
+        if (warehouseField.isEnabled()) {
+            js.executeScript("arguments[0].focus();", warehouseField);
+            warehouseField.sendKeys(Keys.ENTER);
+
+            for (int i = 0; i < initialWarehouse.length(); i++) {
+                warehouseField.sendKeys(Keys.BACK_SPACE);
+            }
+
+            warehouseField.sendKeys(warehouse);
+            warehouseField.sendKeys(Keys.ENTER);
+        }
+
+        WebElement priceField = modal.findElement(By.id("form_in_modal_price"));
+        js.executeScript("arguments[0].focus();", priceField);
+        priceField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < initialPrice.length(); i++) {
+            priceField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        priceField.sendKeys(price);
+
+        WebElement sizeField = modal.findElement(By.id("form_in_modal_size"));
+        js.executeScript("arguments[0].focus();", sizeField);
+        sizeField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < initialSize.length(); i++) {
+            sizeField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        sizeField.sendKeys(size);
+
+        WebElement quantityField = modal.findElement(By.id("form_in_modal_quantity"));
+        js.executeScript("arguments[0].focus();", quantityField);
+        quantityField.sendKeys(Keys.ENTER);
 
         for (int i = 0; i < initialQuantity.length(); i++) {
             quantityField.sendKeys(Keys.BACK_SPACE);

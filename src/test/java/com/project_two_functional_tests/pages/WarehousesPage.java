@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,18 +20,17 @@ import com.project_two_functional_tests.utils.StateConverter;
 public class WarehousesPage {
 
     private WebDriver driver;
+    private JavascriptExecutor js;
+
     private static final String url = "http://localhost:5173/warehouses";
-    private String editedCardWarehouseName;
-    private String editedCardMaxCapacity;
-    private String editedCardCity;
-    private String editedCardState;
+    private String updatedCardWarehouseName;
+    private String updatedCardMaxCapacity;
+    private String updatedCardCity;
+    private String updatedCardState;
     private String deletedCardWarehouseName;
 
     @FindBy(className = "ant-card")
     private List<WebElement> cards;
-
-    @FindBy(className = "ant-btn-primary")
-    private WebElement addWarehouseButton;
 
     @FindBy(className = "ant-modal-content")
     private WebElement modal;
@@ -40,6 +40,7 @@ public class WarehousesPage {
 
     public WarehousesPage(WebDriver driver) {
         this.driver = driver;
+        this.js = (JavascriptExecutor) driver;
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
@@ -84,10 +85,15 @@ public class WarehousesPage {
         return false;
     }
 
-    // Click the button to create new warehouse
-    public void clickOnCreateWarehouseButton() {
-        addWarehouseButton.click();
-        modal.isDisplayed();
+    public void clickButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[text()='" + buttonText + "']]"));
+        button.click();
+    }
+
+    public void focusAndSelectButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[text()='" + buttonText + "']]"));
+        js.executeScript("arguments[0].focus();", button);
+        button.sendKeys(Keys.ENTER);    
     }
 
     // Fill out form input in the modal
@@ -108,11 +114,40 @@ public class WarehousesPage {
         zipCodeField.sendKeys(zipCode);
     }
 
-    // Click the submit button on the modal
-    public void clickOnModalSubmitButton() {
-        WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
-        button.click();
-    }
+    // Fill out form input in the modal  via keyboard
+    public void focusAndEnterFormInputs(String warehouseName, String maxCapacity, String streetAddress, String city,
+            String state, String zipCode) {
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
+        js.executeScript("arguments[0].focus();", nameField);
+        nameField.sendKeys(Keys.ENTER);    
+        nameField.sendKeys(warehouseName);
+
+        WebElement maxCapacityField = modal.findElement(By.id("form_in_modal_maxCapacity"));
+        js.executeScript("arguments[0].focus();", maxCapacityField);
+        maxCapacityField.sendKeys(Keys.ENTER);    
+        maxCapacityField.sendKeys(maxCapacity);
+
+        WebElement streetAddressField = modal.findElement(By.id("form_in_modal_streetAddress"));
+        js.executeScript("arguments[0].focus();", streetAddressField);
+        streetAddressField.sendKeys(Keys.ENTER);
+        streetAddressField.sendKeys(streetAddress);
+
+        WebElement cityField = modal.findElement(By.id("form_in_modal_city"));
+        js.executeScript("arguments[0].focus();", cityField);
+        cityField.sendKeys(Keys.ENTER);
+        cityField.sendKeys(city);
+        
+        WebElement stateField = modal.findElement(By.id("form_in_modal_state"));
+        js.executeScript("arguments[0].focus();", stateField);
+        stateField.sendKeys(Keys.ENTER);
+        stateField.sendKeys(state);
+        stateField.sendKeys(Keys.ENTER);
+
+        WebElement zipCodeField = modal.findElement(By.id("form_in_modal_zipCode"));
+        js.executeScript("arguments[0].focus();", zipCodeField);
+        zipCodeField.sendKeys(Keys.ENTER);
+        zipCodeField.sendKeys(zipCode);
+}
 
     // Check if any cards contain matching name (returns true if found)
     public boolean containsWarehouseWithName(String name) {
@@ -145,7 +180,7 @@ public class WarehousesPage {
     }
 
     // Click on "Edit" or "..." button on card
-    public void selectIconOnCard(int index, String iconType) {
+    public void clickIconOnCard(int index, String iconType) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -154,25 +189,59 @@ public class WarehousesPage {
 
         switch (iconType) {
             case "edit":
-                editedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
-                editedCardWarehouseName = editedCardWarehouseName.replace("Warehouse ", "");
+                updatedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
+                updatedCardWarehouseName = updatedCardWarehouseName.replace("Warehouse ", "");
 
                 String[] cityAndState = cards.get(index).findElement(By.className("ant-card-meta-description"))
                         .getText()
                         .split(",");
-                editedCardCity = cityAndState[0].trim();
-                editedCardState = cityAndState[1].trim();
+                updatedCardCity = cityAndState[0].trim();
+                updatedCardState = cityAndState[1].trim();
 
                 cards.get(index).findElement(By.className("anticon-edit")).click();
                 break;
-            case "...":
+            case "delete":
                 deletedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
                 deletedCardWarehouseName.replace("Warehouse ", "");
 
-                cards.get(index).findElement(By.className("anticon-ellipsis")).click();
+                cards.get(index).findElement(By.className("anticon-delete")).click();
                 break;
         }
     }
+
+        // Click on "Edit" or "..." button on card
+        public void focusAndSelectIconOnCard(int index, String iconType) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    
+            switch (iconType) {
+                case "edit":
+                    updatedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
+                    updatedCardWarehouseName = updatedCardWarehouseName.replace("Warehouse ", "");
+    
+                    String[] cityAndState = cards.get(index).findElement(By.className("ant-card-meta-description"))
+                            .getText()
+                            .split(",");
+                    updatedCardCity = cityAndState[0].trim();
+                    updatedCardState = cityAndState[1].trim();
+    
+                    WebElement editIcon = cards.get(index).findElement(By.className("anticon-edit"));
+                    js.executeScript("arguments[0].focus();", editIcon);
+                    editIcon.sendKeys(Keys.ENTER);   
+                    break;
+                case "delete":
+                    deletedCardWarehouseName = cards.get(index).findElement(By.className("ant-card-meta-title")).getText();
+                    deletedCardWarehouseName.replace("Warehouse ", "");
+    
+                    WebElement deleteIcon = cards.get(index).findElement(By.className("anticon-delete"));
+                    js.executeScript("arguments[0].focus();", deleteIcon);
+                    deleteIcon.sendKeys(Keys.ENTER);   
+                    break;
+            }
+        }
 
     // Checks if the form field contains the current warehouse information based on
     // the initial values
@@ -181,38 +250,38 @@ public class WarehousesPage {
         WebElement cityField = modal.findElement(By.id("form_in_modal_city"));
         WebElement stateField = modal.findElement(By.className("ant-select-selection-item"));
 
-        return nameField.getAttribute("value").equals(editedCardWarehouseName) &&
-                cityField.getAttribute("value").equals(editedCardCity) &&
-                stateField.getAttribute("title").equals(StateConverter.getStateName(editedCardState));
+        return nameField.getAttribute("value").equals(updatedCardWarehouseName) &&
+                cityField.getAttribute("value").equals(updatedCardCity) &&
+                stateField.getAttribute("title").equals(StateConverter.getStateName(updatedCardState));
     }
 
     // Edits the inputs in the form fields with the specified values, replacing the
     // existing inputs
-    public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(String warehouseName, String maxCapacity,
+    public void updateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(String warehouseName, String maxCapacity,
             String streetAddress, String city, String state, String zipCode) {
         WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
 
         // Clear method won't work due to the way the initial value of the field is
         // being set
-        for (int i = 0; i < editedCardWarehouseName.length(); i++) {
+        for (int i = 0; i < updatedCardWarehouseName.length(); i++) {
             nameField.sendKeys(Keys.BACK_SPACE);
         }
 
         nameField.sendKeys(warehouseName);
 
         WebElement maxCapacityField = modal.findElement(By.id("form_in_modal_maxCapacity"));
-        editedCardMaxCapacity = maxCapacityField.getAttribute("value");
+        updatedCardMaxCapacity = maxCapacityField.getAttribute("value");
 
-        for (int i = 0; i < editedCardMaxCapacity.length(); i++) {
+        for (int i = 0; i < updatedCardMaxCapacity.length(); i++) {
             maxCapacityField.sendKeys(Keys.BACK_SPACE);
         }
 
         maxCapacityField.sendKeys(maxCapacity);
 
         WebElement streetAddressField = modal.findElement(By.id("form_in_modal_streetAddress"));
-        String editedCardStreetAddress = streetAddressField.getAttribute("value");
+        String updatedCardStreetAddress = streetAddressField.getAttribute("value");
 
-        for (int i = 0; i < editedCardStreetAddress.length(); i++) {
+        for (int i = 0; i < updatedCardStreetAddress.length(); i++) {
             streetAddressField.sendKeys(Keys.BACK_SPACE);
         }
 
@@ -220,16 +289,16 @@ public class WarehousesPage {
 
         WebElement cityField = modal.findElement(By.id("form_in_modal_city"));
 
-        for (int i = 0; i < editedCardCity.length(); i++) {
+        for (int i = 0; i < updatedCardCity.length(); i++) {
             cityField.sendKeys(Keys.BACK_SPACE);
         }
 
         cityField.sendKeys(city);
 
         WebElement stateField = modal.findElement(By.id("form_in_modal_state"));
-        String editedCardStateFull = StateConverter.getStateName(editedCardState);
+        String updatedCardStateFull = StateConverter.getStateName(updatedCardState);
 
-        for (int i = 0; i < editedCardStateFull.length(); i++) {
+        for (int i = 0; i < updatedCardStateFull.length(); i++) {
             stateField.sendKeys(Keys.BACK_SPACE);
         }
 
@@ -237,26 +306,85 @@ public class WarehousesPage {
         stateField.sendKeys(Keys.ENTER);
 
         WebElement zipCodeField = modal.findElement(By.id("form_in_modal_zipCode"));
-        String editedCardZipCode = streetAddressField.getAttribute("value");
+        String updatedCardZipCode = streetAddressField.getAttribute("value");
 
-        for (int i = 0; i < editedCardZipCode.length(); i++) {
+        for (int i = 0; i < updatedCardZipCode.length(); i++) {
             zipCodeField.sendKeys(Keys.BACK_SPACE);
         }
 
         zipCodeField.sendKeys(zipCode);
     }
 
-    // Click "Save" or "Cancel" button in form modal
-    public void clickButtonInModal(String buttonText) {
-        switch (buttonText) {
-            case "Save":
-                modal.findElement(By.xpath("//button[@type='submit']")).click();
-                break;
-            case "Cancel":
-                // Update frontend to be more specific selector
-                modal.findElement(By.className("ant-btn-default")).click();
-                break;
+    // Edits the inputs in the form fields with the specified values, replacing the
+    // existing inputs via keyboard
+    public void focusAndUpdateWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(String warehouseName, String maxCapacity,
+            String streetAddress, String city, String state, String zipCode) {
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
+        js.executeScript("arguments[0].focus();", nameField);
+        nameField.sendKeys(Keys.ENTER);
+
+        // Clear method won't work due to the way the initial value of the field is
+        // being set
+        for (int i = 0; i < updatedCardWarehouseName.length(); i++) {
+            nameField.sendKeys(Keys.BACK_SPACE);
         }
+
+        nameField.sendKeys(warehouseName);
+
+        WebElement maxCapacityField = modal.findElement(By.id("form_in_modal_maxCapacity"));
+        updatedCardMaxCapacity = maxCapacityField.getAttribute("value");
+        js.executeScript("arguments[0].focus();", maxCapacityField);
+        maxCapacityField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < updatedCardMaxCapacity.length(); i++) {
+            maxCapacityField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        maxCapacityField.sendKeys(maxCapacity);
+
+        WebElement streetAddressField = modal.findElement(By.id("form_in_modal_streetAddress"));
+        String updatedCardStreetAddress = streetAddressField.getAttribute("value");
+        js.executeScript("arguments[0].focus();", streetAddressField);
+        streetAddressField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < updatedCardStreetAddress.length(); i++) {
+            streetAddressField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        streetAddressField.sendKeys(streetAddress);
+
+        WebElement cityField = modal.findElement(By.id("form_in_modal_city"));
+        js.executeScript("arguments[0].focus();", streetAddressField);
+        streetAddressField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < updatedCardCity.length(); i++) {
+            cityField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        cityField.sendKeys(city);
+
+        WebElement stateField = modal.findElement(By.id("form_in_modal_state"));
+        String updatedCardStateFull = StateConverter.getStateName(updatedCardState);
+        js.executeScript("arguments[0].focus();", stateField);
+        stateField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < updatedCardStateFull.length(); i++) {
+            stateField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        stateField.sendKeys(state);
+        stateField.sendKeys(Keys.ENTER);
+
+        WebElement zipCodeField = modal.findElement(By.id("form_in_modal_zipCode"));
+        String updatedCardZipCode = streetAddressField.getAttribute("value");
+        js.executeScript("arguments[0].focus();", zipCodeField);
+        zipCodeField.sendKeys(Keys.ENTER);
+
+        for (int i = 0; i < updatedCardZipCode.length(); i++) {
+            zipCodeField.sendKeys(Keys.BACK_SPACE);
+        }
+
+        zipCodeField.sendKeys(zipCode);
     }
 
     // Checks that card is updated after save by verifying it contains the new
@@ -299,15 +427,15 @@ public class WarehousesPage {
             String city = cityAndState[0].trim();
             String state = cityAndState[1].trim();
 
-            if (title.contains(editedCardWarehouseName) && city.equals(editedCardCity)
-                    && state.equals(editedCardState))
+            if (title.contains(updatedCardWarehouseName) && city.equals(updatedCardCity)
+                    && state.equals(updatedCardState))
                 return true;
         }
         return false;
     }
 
     // Click card with specified warehouse name
-    public void selectWarehouseCard(String cardName) {
+    public void clickWarehouseCard(String cardName) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         for (WebElement card : cards) {
@@ -322,8 +450,8 @@ public class WarehousesPage {
         }
     }
 
-    // Click the warehouse card that was edited
-    public void selectWarehouseCard() {
+    // Click the warehouse card that was updated
+    public void clickWarehouseCard() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         for (WebElement card : cards) {
@@ -331,8 +459,42 @@ public class WarehousesPage {
 
             String title = card.findElement(By.className("ant-card-meta-title")).getText();
 
-            if (title.contains(editedCardWarehouseName)) {
+            if (title.contains(updatedCardWarehouseName)) {
                 card.click();
+                break;
+            }
+        }
+    }
+
+       // Select card with specified warehouse name via keyboard
+       public void focusAndSelectWarehouseCard(String cardName) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        for (WebElement card : cards) {
+            wait.until(ExpectedConditions.visibilityOf(card));
+
+            String title = card.findElement(By.className("ant-card-meta-title")).getText();
+
+            if (title.contains(cardName)) {
+                js.executeScript("arguments[0].focus();", card);
+                card.sendKeys(Keys.ENTER);
+                break;
+            }
+        }
+    }
+
+    // Select the warehouse card that was updated via keyboard
+    public void focusAndSelectWarehouseCard() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        for (WebElement card : cards) {
+            wait.until(ExpectedConditions.visibilityOf(card));
+
+            String title = card.findElement(By.className("ant-card-meta-title")).getText();
+
+            if (title.contains(updatedCardWarehouseName)) {
+                js.executeScript("arguments[0].focus();", card);
+                card.sendKeys(Keys.ENTER);
                 break;
             }
         }
@@ -373,17 +535,9 @@ public class WarehousesPage {
 
         if (matcher.find()) {
             String maxCapacity = matcher.group(1);
-            return maxCapacity.equals(editedCardMaxCapacity);
+            return maxCapacity.equals(updatedCardMaxCapacity);
         } else
             return false;
-    }
-
-    // Click "Delete" option in dropdown menu
-    public void selectDeleteDropdownOption() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        WebElement deleteMenuItem = wait
-                .until(ExpectedConditions.elementToBeClickable(By.className("ant-dropdown-menu-item-danger")));
-        deleteMenuItem.click();
     }
 
     // Checks that card is deleted by verifying no cards it contains the name

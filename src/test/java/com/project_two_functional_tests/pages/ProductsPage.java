@@ -4,19 +4,20 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductsPage {
 
     private WebDriver driver;
+    private JavascriptExecutor js;
+
     private static final String url = "http://localhost:5173/products";
-    private String editedCardCategoryName;
+    private String updatedCardCategoryName;
     private String deletedCardCategoryName;
 
     @FindBy(className = "ant-card")
@@ -33,6 +34,7 @@ public class ProductsPage {
 
     public ProductsPage(WebDriver driver) {
         this.driver = driver;
+        this.js = (JavascriptExecutor) driver;
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
@@ -77,10 +79,15 @@ public class ProductsPage {
         return false;
     }
 
-    // Click the button to create new category
-    public void clickOnCreateProductCategoryButton() {
-        addCategoryButton.click();
-        modal.isDisplayed();
+    public void clickButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[text()='" + buttonText + "']]"));
+        button.click();
+    }
+
+    public void focusAndSelectButton(String buttonText) {
+        WebElement button = driver.findElement(By.xpath("//button[span[text()='" + buttonText + "']]"));
+        js.executeScript("arguments[0].focus();", button);
+        button.sendKeys(Keys.ENTER);    
     }
 
     // Fill out form input in the modal
@@ -89,10 +96,12 @@ public class ProductsPage {
         field.sendKeys(input);
     }
 
-    // Click the submit button on the modal
-    public void clickOnModalSubmitButton() {
-        WebElement button = modal.findElement(By.xpath("//button[@type='submit']"));
-        button.click();
+    // Fill out form input in the modal
+    public void focusAndEnterInput(String input) {
+        WebElement field = modal.findElement(By.tagName("input"));
+        js.executeScript("arguments[0].focus();", field);
+        field.sendKeys(Keys.ENTER);    
+        field.sendKeys(input);
     }
 
     // Check if any cards contain matching name (returns true if found)
@@ -126,15 +135,33 @@ public class ProductsPage {
     }
 
     // Click on "Edit" or "..." button on card
-    public void selectIconOnCard(String iconType) {
+    public void clickIconOnCard(String iconType) {
         switch (iconType) {
             case "edit":
-                editedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                updatedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
                 cards.get(0).findElement(By.className("anticon-edit")).click();
                 break;
-            case "...":
+            case "delete":
                 deletedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
-                cards.get(0).findElement(By.className("anticon-ellipsis")).click();
+                cards.get(0).findElement(By.className("anticon-delete")).click();
+                break;
+        }
+    }
+
+    // Select "Edit" or "..." button on card via keyboard
+    public void focusAndSelectIconOnCard(String iconType) {
+        switch (iconType) {
+            case "edit":
+                updatedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                WebElement editIcon = cards.get(0).findElement(By.className("anticon-edit"));
+                js.executeScript("arguments[0].focus();", editIcon);
+                editIcon.sendKeys(Keys.ENTER); 
+                break;
+            case "delete":
+                deletedCardCategoryName = cards.get(0).findElement(By.className("ant-card-meta-title")).getText();
+                WebElement deleteIcon = cards.get(0).findElement(By.className("anticon-delete"));
+                js.executeScript("arguments[0].focus();", deleteIcon);
+                deleteIcon.sendKeys(Keys.ENTER); 
                 break;
         }
     }
@@ -143,34 +170,37 @@ public class ProductsPage {
     // initial value
     public boolean updateFieldContainsProductCategoryName() {
         WebElement updateField = modal.findElement(By.id("form_in_modal_name"));
-        return updateField.getAttribute("value").equals(editedCardCategoryName);
+        return updateField.getAttribute("value").equals(updatedCardCategoryName);
     }
 
     // Edits the input in the form field with the specified value, replacing the
     // existing input
-    public void editUpdateField(String input) {
-        WebElement updateField = modal.findElement(By.id("form_in_modal_name"));
+    public void updateNameField(String input) {
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
 
         // Clear method won't work due to the way the initial value of the field is
         // being set
-        for (int i = 0; i < editedCardCategoryName.length(); i++) {
-            updateField.sendKeys(Keys.BACK_SPACE);
+        for (int i = 0; i < updatedCardCategoryName.length(); i++) {
+            nameField.sendKeys(Keys.BACK_SPACE);
         }
 
-        updateField.sendKeys(input);
+        nameField.sendKeys(input);
     }
 
-    // Click "Save" or "Cancel" button in form modal
-    public void clickButtonInModal(String buttonText) {
-        switch (buttonText) {
-            case "Save":
-                modal.findElement(By.xpath("//button[@type='submit']")).click();
-                break;
-            case "Cancel":
-                // Update frontend to be more specific selector
-                modal.findElement(By.className("ant-btn-default")).click();
-                break;
+    // Edits the input in the form field with the specified value, replacing the
+    // existing input via keyboard
+    public void focusAndUpdateNameField(String input) {
+        WebElement nameField = modal.findElement(By.id("form_in_modal_name"));
+        js.executeScript("arguments[0].focus();", nameField);
+        nameField.sendKeys(Keys.ENTER); 
+
+        // Clear method won't work due to the way the initial value of the field is
+        // being set
+        for (int i = 0; i < updatedCardCategoryName.length(); i++) {
+            nameField.sendKeys(Keys.BACK_SPACE);
         }
+
+        nameField.sendKeys(input);
     }
 
     // Checks that card is updated after save by verifying it contains the new name
@@ -181,15 +211,7 @@ public class ProductsPage {
     // Checks that card is not updated after cancel by verifying it contains the
     // initial name
     public boolean canceledCardIsNotUpdated() {
-        return this.containsProductCategoryWithName(editedCardCategoryName);
-    }
-
-    // Click "Delete" option in dropdown menu
-    public void selectDeleteDropdownOption() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        WebElement deleteMenuItem = wait
-                .until(ExpectedConditions.elementToBeClickable(By.className("ant-dropdown-menu-item-danger")));
-        deleteMenuItem.click();
+        return this.containsProductCategoryWithName(updatedCardCategoryName);
     }
 
     // Checks that card is deleted by verifying no cards it contains the name
