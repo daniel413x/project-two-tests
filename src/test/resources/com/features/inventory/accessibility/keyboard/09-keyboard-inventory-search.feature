@@ -1,13 +1,14 @@
 @keyboard-inventory-search
 Feature: Search inventory items via keyboard
 
+# Not functional
   Scenario Outline: Search inventory items on all inventory page via keyboard
     Given I am on the "all" inventory page
     When the inventory has loaded
-    And I tab and select the "search" icon on the "<column>" column
+    And I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should tab and enter "<value>" in the search field
-    And tab and select the "Search" button
+    Then I should focus and input "<value>" in the search field
+    And I focus and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 
     Examples:
@@ -20,9 +21,9 @@ Feature: Search inventory items via keyboard
     Given I am on the "all" inventory page
     When the inventory has loaded
     And I have searched "<column>" for "<value>"
-    Then I tab and select the "search" icon on the "<column>" column
+    Then I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    And tab and select the "Reset" button
+    And I focus and select the "Reset" button
     Then I should see all rows displayed where the column contains any value
 
     Examples:
@@ -34,10 +35,10 @@ Feature: Search inventory items via keyboard
   Scenario Outline: Search inventory items on a warehouse inventory page via keyboard
     Given I am on the "<inventorybyWarehousePage>" inventory page
     When the inventory has loaded
-    And I tab and select the "search" icon on the "<column>" column
+    And I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should tab and enter "<value>" in the search field
-    And tab and select the "Search" button
+    Then I should focus and input "<value>" in the search field
+    And I focus and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 
     Examples:
@@ -50,9 +51,9 @@ Feature: Search inventory items via keyboard
     Given I am on the "<inventorybyWarehousePage>" inventory page
     When the inventory has loaded
     And I have searched "<column>" for "<value>"
-    Then I tab and select the "search" icon on the "<column>" column
+    Then I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    And tab and select the "Reset" button
+    And I focus and select the "Reset" button
     Then I should see all rows displayed where the column contains any value
 
     Examples:
@@ -64,10 +65,10 @@ Feature: Search inventory items via keyboard
   Scenario Outline: Search inventory items on a product category page via keyboard
     Given I am on the "<inventorybyProductCategoryPage>" inventory page
     When the inventory has loaded
-    And I tab and select the "search" icon on the "<column>" column
+    And I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    Then I should tab and enter "<value>" in the search field
-    And tab and select the "Search" button
+    Then I should focus and input "<value>" in the search field
+    And I focus and select the "Search" button
     Then I should see rows displayed where the "<column>" column has a value that contains "<value>"
 
     Examples:
@@ -80,9 +81,9 @@ Feature: Search inventory items via keyboard
     Given I am on the "<inventorybyProductCategoryPage>" inventory page
     When the inventory has loaded
     And I have searched "<column>" for "<value>"
-    Then I tab and select the "search" icon on the "<column>" column
+    Then I focus and select the "search" icon on the "<column>" column
     Then I should see a search modal displayed
-    And tab and select the "Reset" button
+    And I focus and select the "Reset" button
     Then I should see all rows displayed where the column contains any value
 
     Examples:

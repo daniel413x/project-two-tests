@@ -1,10 +1,11 @@
 @keyboard-inventory-sort
 Feature: Sort inventory items via keyboard
 
+# Not functional
   Scenario Outline: Sort inventory items on all inventory page via keyboard
     Given I am on the "<inventoryPage>" inventory page
     When the inventory has loaded
-    And I tab and select the "sort" icon on the "<column>" column
+    And I focus and select the "sort" icon on the "<column>" column
     Then "<column>" rows should be in "<order>" order
 
     Examples:
