@@ -1,8 +1,8 @@
 @screen-reader-inventory-creation
-Feature: Inventory creation
+Feature: Inventory creation via screen reader
 
 # Last step not implemented
-  Scenario Outline: Create a new item in inventory for the all inventory, warehouse inventory, and product category inventory pages
+  Scenario Outline: Create a new item in inventory for the all inventory, warehouse inventory, and product category inventory pages via screen reader
     Given I am on the "<inventoryPage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded

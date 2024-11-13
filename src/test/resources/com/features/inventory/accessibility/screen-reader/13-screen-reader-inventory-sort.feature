@@ -1,8 +1,8 @@
 @screen-reader-inventory-sort
-Feature: Sort inventory items
+Feature: Sort inventory items via screen reader
 
 # Last step not implemented
-  Scenario Outline: Sort inventory items on all inventory page
+  Scenario Outline: Sort inventory items on all inventory page via screen reader
     Given I am on the "<inventoryPage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded

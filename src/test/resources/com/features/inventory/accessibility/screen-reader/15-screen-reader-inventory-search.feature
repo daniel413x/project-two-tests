@@ -1,7 +1,7 @@
 @screen-reader-inventory-search
-Feature: Search inventory items
+Feature: Search inventory items via screen reader
 
-  Scenario Outline: Search inventory items on all inventory page
+  Scenario Outline: Search inventory items on all inventory page via screen reader
     Given I am on the "all" inventory page
     And a screen reader is enabled
     When the inventory has loaded
@@ -17,7 +17,7 @@ Feature: Search inventory items
       | Name        | Ascend    |
       | Description | ergonomic |
 
-  Scenario Outline: Reset search of inventory items on all inventory page
+  Scenario Outline: Reset search of inventory items on all inventory page via screen reader
     Given I am on the "all" inventory page
     And a screen reader is enabled
     When the inventory has loaded
@@ -33,7 +33,7 @@ Feature: Search inventory items
       | Name        | Ascend    |
       | Description | ergonomic |
 
-  Scenario Outline: Search inventory items on a warehouse inventory page
+  Scenario Outline: Search inventory items on a warehouse inventory page via screen reader
     Given I am on the "<inventorybyWarehousePage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded
@@ -49,7 +49,7 @@ Feature: Search inventory items
       | warehouse 1              | Name        | Eagle Eye Climbing |
       | warehouse 1              | Description |          60 meters |
 
-  Scenario Outline: Reset search of inventory items on a warehouse inventory page
+  Scenario Outline: Reset search of inventory items on a warehouse inventory page via screen reader
     Given I am on the "<inventorybyWarehousePage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded
@@ -65,7 +65,7 @@ Feature: Search inventory items
       | warehouse 1              | Name        | Eagle Eye Climbing |
       | warehouse 1              | Description |          60 meters |
 
-  Scenario Outline: Search inventory items on a product category page
+  Scenario Outline: Search inventory items on a product category page via screen reader
     Given I am on the "<inventorybyProductCategoryPage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded
@@ -81,7 +81,7 @@ Feature: Search inventory items
       | category 1                     | Name        | Peak Performance |
       | category 1                     | Description | grip             |
 
-  Scenario Outline: Reset search of inventory items on a product category page
+  Scenario Outline: Reset search of inventory items on a product category page via screen reader
     Given I am on the "<inventorybyProductCategoryPage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded

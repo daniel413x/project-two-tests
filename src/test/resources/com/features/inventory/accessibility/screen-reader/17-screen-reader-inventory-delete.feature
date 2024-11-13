@@ -1,7 +1,7 @@
 @screen-reader-inventory-delete
-Feature: Inventory delete
+Feature: Inventory delete via screen reader
 
-  Scenario Outline: Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages
+  Scenario Outline: Delete an inventory item for the all inventory, warehouse inventory, and product category inventory pages via screen reader
     Given I am on the "<inventoryPage>" inventory page
     And a screen reader is enabled
     When the inventory has loaded
