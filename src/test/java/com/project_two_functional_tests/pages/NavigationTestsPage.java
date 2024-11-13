@@ -57,8 +57,10 @@ public class NavigationTestsPage {
         return driver.findElement(By.id("skip-nav")).isDisplayed();
     }
 
-    public void clickOnSkipNavigationLink() {
-        driver.findElement(By.id("skip-nav")).click();
+    public void selectSkipNavigationLink() {
+        WebElement skipNav = driver.findElement(By.id("skip-nav"));
+        js.executeScript("arguments[0].focus();", skipNav);
+        skipNav.sendKeys(Keys.ENTER);
     }
 
 }

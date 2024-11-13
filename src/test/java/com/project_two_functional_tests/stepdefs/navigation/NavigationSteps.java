@@ -124,9 +124,9 @@ public class NavigationSteps {
         assertTrue(navigationTestsPage.isSkipNavigationLinkDisplayed());
     }
 
-    @Then("I click the skip navigation link")
+    @Then("I select the skip navigation link")
     public void iClickSkipNavigationLink() {
-        navigationTestsPage.clickOnSkipNavigationLink();
+        navigationTestsPage.selectSkipNavigationLink();
     }
 
     @Then("I should be taken to the main content of the page")
