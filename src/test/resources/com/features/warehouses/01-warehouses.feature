@@ -1,5 +1,5 @@
 @warehouses
-Feature: Warehouses
+Feature: Warehouses shown
 
   Scenario: Warehouse are shown
     Given I am on the warehouses page
