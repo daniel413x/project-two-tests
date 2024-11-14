@@ -7,8 +7,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I focus and activate the "Save" button
     And the screen reader should announce that the inventory item row is updated
 
@@ -18,8 +18,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Product Type, Price, Size and Quantity fields
     Then I focus and activate the "Save" button
     And the screen reader should announce that the inventory item row is updated
 
@@ -34,8 +34,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I focus and activate the "Save" button
     And the screen reader should announce that the inventory item row is updated
 
@@ -49,8 +49,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I focus and activate the "Cancel" button
     And the screen reader should announce that the inventory item row remains unchanged
 
@@ -60,8 +60,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Product Type, Warehouse, Price, Size and Quantity fields
     Then I focus and activate the "Cancel" button
     And should see the inventory item row unchanged
 
@@ -76,8 +76,8 @@ Feature: Update inventory items via screen reader
     And a screen reader is enabled
     When the inventory has loaded
     And I focus and activate the "Edit" link on a row
-    Then I should see a form with pre-filled fields of current inventory item information
-    And focus, activate, and update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
+    Then the screen reader should announce the "Update Inventory Item" modal
+    And I focus, activate, and update the Brand, Product Name, Description, Warehouse, Price, Size and Quantity fields
     Then I focus and activate the "Cancel" button
     And the screen reader should announce that the inventory item row remains unchanged
 

@@ -7,7 +7,7 @@ Feature: Inventory delete via screen reader
     When the inventory has loaded
     And I focus and activate the "Delete" link on a row
     Then I focus and activate the Delete button in the popover
-    Then the screen reader should not announce that the inventory item row is displayed
+    Then the screen reader should announce that the inventory row was deleted
 
     Examples:
       | inventoryPage |
